@@ -2,7 +2,7 @@
 	margin:0;
 	padding:0;
 	box-sizing: border-box;
-}
+} 
 nav{
     display: flex;
     justify-content: space-between;
@@ -12,7 +12,7 @@ nav{
     align-items: center;
     background-color: #24262b;
 	position: fixed;
-	width: 100%;
+	width: 100%; 
 	z-index: 1;
 }
 nav ul{
@@ -48,7 +48,7 @@ nav .logo h1{
     display: none;
 }
 footer{
-	margin-top: 40px;
+	/* margin-top: 40px; */
 	line-height: 1.5;
 	font-family: 'Poppins', sans-serif;
 }

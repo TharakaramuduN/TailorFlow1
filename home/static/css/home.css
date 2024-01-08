@@ -12,7 +12,7 @@
 
 .welcome{
     display: flex;
-    height: 100vh;
+    height: 90vh;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
@@ -28,17 +28,18 @@
 
 /* up-1 */
 .poster{
-    margin-top: 60px;
+    /* margin-top: 60px; */
     width: 50%;
     height: 80%;
     background: url("../images/poster.jpg") no-repeat center center/cover;
     border-bottom-left-radius: 15px;
     border-top-left-radius: 15px;
+    box-shadow: -5px 5px 20px #f2db92;
 }
 
 /* up 1 */
 .caption{
-    margin-top: 60px;
+    /* margin-top: 60px; */
     height: 90%;
     width: 50%;
     display: flex;
@@ -79,6 +80,9 @@
     box-shadow: 1px 1px 1px gray;
 }
 
+.poster{
+
+}
 
 
 @media (max-width:768px) {

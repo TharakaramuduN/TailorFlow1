@@ -6,10 +6,9 @@ from .forms import CustomerForm
 def newCustomer(request):
     form = CustomerForm()
     if request.method == "POST":
-        form = CustomerForm(request.POST)
+        form = CustomerForm(request.POST,request.FILES)
         if form.is_valid():
-            # form.save()
-            print(form.cleaned_data)
+            form.save()
             return redirect('/')
         # else:
         #     return render(request,'customers/newCustomer.html',context={'form':form,'errors':errors})

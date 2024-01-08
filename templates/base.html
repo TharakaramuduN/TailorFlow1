@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{%static 'css/base.css'%}" />
   </head>
   <body>
-    <nav class="">
+    <nav class="sticky top-0">
       <div class="logo">
         <h1 class="text-xl font-bold">Tailor</h1>
         <h2 class="text-lg font-bold">Flow</h2>
@@ -38,8 +38,10 @@
         <li><a href="">Profile</a></li>
       </ul>
     </nav>
+    <!-- <div class="nav h-[60px] bg-yellow"></div> -->
 
     {% block content %}
+
     {% endblock %}
     <footer class="footer">
       <div class="container">

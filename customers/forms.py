@@ -11,7 +11,7 @@ class CustomerForm(forms.ModelForm):
     # profile = forms.ImageField(widget=forms.ImageField(attrs={'id':'floating_profile','name':'floating_profile','class':'block py-5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'}))
     class Meta:
         model = Customer
-        fields = ['phone','profile']
-    def __init__(self,*args, **kwargs):
-        super(CustomerForm,self).__init__(*args, **kwargs)
-        self.fields['profile'].widget = forms.ImageField(attrs={'id':'floating_profile','name':'floating_profile','class':'block py-5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'})
+        fields = ['profile']
+    # def __init__(self,*args, **kwargs):
+    #     super(CustomerForm,self).__init__(*args, **kwargs)
+    #     self.fields['profile'].widget = forms.ImageField(attrs={'id':'floating_profile','name':'floating_profile','class':'block py-5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'})
