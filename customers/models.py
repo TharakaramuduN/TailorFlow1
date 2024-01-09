@@ -5,7 +5,7 @@ from tailors.models import TailorUser
 # Create your models here.
 
 class Customer(models.Model):
-    tailor = models.ForeignKey(TailorUser,on_delete=models.CASCADE,null=True,blank=True)
+    # tailor = models.ForeignKey(TailorUser,on_delete=models.CASCADE,null=True,blank=True)
     # orders = models.ForeignKey(Order,on_delete=models.CASCADE,null=True)
     # transactions = models.ForeignKey(Transaction,on_delete=models.CASCADE,null=True)
     first_name = models.CharField(max_length=100,blank=False)

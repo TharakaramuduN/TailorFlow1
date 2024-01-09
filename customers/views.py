@@ -24,3 +24,6 @@ def newCustomer(request):
         # else:
         #     return render(request,'customers/newCustomer.html',context={'form':form,'errors':errors})
     return render(request,'customers/newCustomer.html',context={'form':form})
+
+# def addMeasurements(request):
+#     form = 
