@@ -4,7 +4,7 @@
 {%block styletag%}<link rel="stylesheet" href="{%static 'css/newCustomer.css'%}"> {%endblock styletag%}
 
 {%block content%}
-    <div class="form-container bg-black">
+    <div class="form-container bg-black h-[90vh]">
         <h1 class="text-2xl pt-[90px] text-center text-yellow-400">Add customer details</h1>
         <form class="pb-10 max-w-md mx-auto pt-[60px] space-y-5" method="POST" enctype="multipart/form-data">
             {%csrf_token%}
