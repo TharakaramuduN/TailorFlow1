@@ -1,0 +1,26 @@
+.input-field{
+    width: 60px;
+    padding: 0 5px;
+}
+
+.measurements-container{
+    height: 550px;
+}
+
+
+/* @media (max-width:768px) {
+    .measurements-container{
+        height: 500px;
+    }
+
+} */
+@media (max-width:640px) {
+    .input-field{
+        width: 40px;
+    }
+    
+    .measurements-container{
+        height: 400px;
+    }
+    
+}

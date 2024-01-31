@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+ {%load static%} 
+ {% block title %} {{title}}
+ {%endblock title %} {% block content %}
+<link rel="stylesheet" href="{%static 'css/home.css'%}" />
+<div class="welcome">
+  <div class="caption">
+    <h1>The Gift of Good Style</h1>
+    <p>Where Imagination Meets Fabric, Where Design Meets Precision. Step into Tailor’s Haven.</p>
+    <a href="{%url 'newCustomer'%}">add customer</a>
+  </div>
+  <div class="poster"></div>
+</div>
+{% endblock content %}
