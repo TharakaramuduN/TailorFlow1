@@ -1,0 +1,65 @@
+{%extends 'base.html'%}
+{%load static%} 
+
+{%block stylesheet%}
+  <link rel="stylesheet" href="{%static 'css/customers.css'%}">
+{%endblock stylesheet%}
+
+{%block content%}
+  <section class="customer-section">
+    <div class="customer-content max-w-5xl mx-auto sm:p-8 p-4">
+
+      <div class=" flex justify-between ">
+        <h1 class=" text-xl sm:text-3xl font-medium">Customers</h1>
+        <button class=" sm:px-4 px-2 rounded-full bg-yellow-500 text-black font-medium">
+          <a href="{%url 'new-customer'%}">Add Customer</a>
+        </button>
+      </div>
+
+      <div class="border rounded-lg h-fit sm:p-4 p-2 my-5">
+
+          <div class="searchbar-filters flex w-full justify-between">
+            <div class="group">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+              <input placeholder="Search" type="search" class="input">
+            </div>
+            <div class="three-dots sm:hidden flex justify-center items-center">
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+          </div>
+
+
+          <table class=" w-full text-center border my-5 rounded-3xl">
+            <thead class=" bg-[#2b2d42] text-white ">
+              <tr class="">
+                <td class=" rounded-l-lg">Profile</td>
+                <td>Name</td>
+                <td>Phone</td>
+                <td>Email</td>  
+                <td>City</td>
+                <td class=" rounded-r-lg">Details</td>
+              </tr>
+            </thead>
+            <tbody class="  ">
+              {% for customer in customers%}
+              <tr class="">
+                <td class=" flex justify-center items-center h-14"><img class=" h-10 w-10 rounded-full" src={{customer.profile.url}} alt=""></td>
+                <td>{{customer.first_name}}</td>
+                <td>{{customer.phone}}</td>
+                <td>{{customer.email}}</td>
+                <td>{{customer.city}}</td>
+                <td>
+                  <a class=" mr-2" href="{% url 'customer-details' customer.id%}">
+                    View
+                  </a>
+                  </a>
+                </td>
+
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </section>
+{%endblock content%}

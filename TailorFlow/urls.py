@@ -21,9 +21,10 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('home.urls')),
-    path('',include('tailors.urls')),
-    path('',include('customers.urls')),
+    path('', include('apps.home.urls')),
+    path('',include('apps.tailors.urls')),
+    path('',include('apps.customers.urls')),
+    path('',include('apps.profile_app.urls'))
 ]
 
 if settings.DEBUG:

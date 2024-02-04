@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-xp8xt_6w%5jv_r_wno3=lyfi&qtf@1phik74gg_jbjsjfwp^fn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.83.169','localhost','127.0.0.1','192.168.97.169']
 
 
 # Application definition
@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home.apps.HomeConfig',
-    'orders.apps.OrdersConfig',
-    'customers.apps.CustomersConfig',
-    'transactions.apps.TransactionsConfig',
-    'tailors.apps.TailorsConfig',
+    'apps.home.apps.HomeConfig',
+    'apps.orders.apps.OrdersConfig',
+    'apps.customers.apps.CustomersConfig',
+    'apps.transactions.apps.TransactionsConfig',
+    'apps.tailors.apps.TailorsConfig',
+    # 'apps.profile_app.apps.ProfileAppConfig'
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
@@ -135,3 +137,5 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'tailors.TailorUser' 
+
+LOGIN_URL = '/login/'

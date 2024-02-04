@@ -1,9 +1,24 @@
 from django.shortcuts import render, redirect
 from .forms import CreateTailorForm, TailorLoginForm
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 # from django.urls.conf import 
 
 # Create your views here.
+
+def register(request):
+    form = CreateTailorForm()
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password1']
+        form = CreateTailorForm(request.POST)
+        if form.is_valid():
+            tailor = form.save()
+            user = authenticate(request,username=username,password=password)
+            login(request,user)
+            return redirect('/')
+    return render(request,'tailors/registration.html',context={'form':form})
+
 
 def Tailorlogin(request):
     form = TailorLoginForm()
@@ -21,11 +36,12 @@ def Tailorlogin(request):
             return render(request, 'tailors/login.html', {'error_message': 'Invalid credentials','form':form})
     return render(request,'tailors/login.html',{'form':form})
 
-def register(request):
-    form = CreateTailorForm()
+@login_required
+def profile(request):
+    user = request.user
     if request.method == "POST":
-        form = CreateTailorForm(request.POST)
-        if form.is_valid():
-            tailor = form.save()
-            return redirect('/')
-    return render(request,'tailors/registration.html',context={'form':form})
+        logout(request)
+        print("logged out")
+        return redirect('/')
+    return render(request,'tailors/profile.html',context={'user':user})
+

@@ -1,0 +1,33 @@
+{% extends 'base.html'%}
+{% load static%}
+
+{%block title%} Customer {%endblock title%}
+{%block stylesheet%}
+<link rel="stylesheet" href="{% static 'css/customer_details.css'%}">
+{%endblock stylesheet%}
+
+{%block content%}
+
+    <section class=" customer-details-section p-10 rounded-md">
+        <div class="customer-details-content max-w-5xl mx-auto">
+            <div class="profile-card flex flex-col sm:flex-row border sm:p-10 p-5 relative text-center sm:text-left items-center sm:items-start">
+                <div class="img-container sm:mr-10 mb-2 sm:mb-0">
+                    <img class=" sm:h-40 sm:w-40 h-20 w-20 rounded-full" src={{customer.profile.url}} alt="">
+                </div>
+                <div class="details-container sm:space-y-5 space-y-3">
+                    <p class=" text-2xl font-medium sm:pt-3">{{customer.first_name}} {{customer.last_name}}</p>
+                    <p><i class="fa-solid fa-phone mr-3"></i>{{customer.phone}}</p>
+                    <div class="email-location flex sm:flex-row flex-col flex-wrap justify-center sm:justify-normal items-center sm:items-start space-y-3 sm:space-y-0">
+                        <div class=" flex items-center sm:mr-4 sm:mb-2"><i class="fa-solid fa-envelope mr-3"></i>{{customer.email}}</div> 
+                        <div class=" flex items-center"><i class="fa-solid fa-location-dot mr-2"></i> {{customer.city}}</div>
+                    </div>
+                </div>
+                <div class="absolute top-0 right-0 h-fit w-fit p-2 sm:p-5">
+                    <a href="{%url 'edit-customer' customer.id%}" class="edit-btn sm:block hidden bg-yellow-200 px-3 rounded-md">Edit</a>
+                    <a href="{%url 'edit-customer' customer.id%}" class="edit-btn sm:hidden"><i class="fa-regular fa-pen-to-square"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{%endblock content%}

@@ -125,14 +125,14 @@ footer{
 
 /*responsive*/
  
-@media(max-width: 992px){
+@media(max-width: 1030px){
       nav{
           padding-left: 10%;
           padding-right: 10%;
       }
   }
 
-@media(max-width: 767px){   
+@media(max-width: 900px){   
   .footer-col{
     width: 50%;
     /* margin-bottom: 30px; */
@@ -146,7 +146,7 @@ footer{
         width: 70%;
     }
 }
-@media(max-width: 574px){
+@media(max-width: 640px){
   .footer-col{
     width: 100%;
     }

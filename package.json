@@ -1,0 +1,11 @@
+{
+  "name": "tailorflow1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "postcss ./static/css/tailwindinput.css -o ./static/css/tailwindoutput.css --watch"
+  },
+  "author": "",
+  "license": "ISC"
+}

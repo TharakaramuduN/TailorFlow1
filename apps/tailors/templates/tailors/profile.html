@@ -1,0 +1,9 @@
+{% extends 'base.html'%}
+
+{% block content%}
+    hello {{user}}
+    <form action="" method="post">
+        {% csrf_token%}
+        <button>Logout</button>
+    </form>
+{%endblock content%}
