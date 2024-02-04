@@ -13,7 +13,7 @@ class Customer(models.Model):
     email = models.EmailField(blank=False)
     city = models.CharField(max_length=100,blank=False)
     phone = models.CharField(max_length=20,blank=False)
-    profile = models.ImageField(blank=True,null=True,upload_to='profile/',default='profile/profile-user.png')
+    profile = models.ImageField(blank=True,null=True,upload_to='profile/',default='default/profile-user.png')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
