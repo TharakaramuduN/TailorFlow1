@@ -20,7 +20,7 @@ def register(request):
     return render(request,'tailors/registration.html',context={'form':form})
 
 
-def Tailorlogin(request):
+def tailor_login(request):
     form = TailorLoginForm()
     if request.method == 'POST':
         username = request.POST['username']
@@ -41,7 +41,6 @@ def profile(request):
     user = request.user
     if request.method == "POST":
         logout(request)
-        print("logged out")
-        return redirect('/')
+        return redirect(tailor_login)
     return render(request,'tailors/profile.html',context={'user':user})
 

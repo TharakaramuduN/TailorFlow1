@@ -9,9 +9,10 @@ class CreateTailorForm(UserCreationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Username'}),required=True)
     email = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'email'}),required=True)
     phone = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Phone'}),required=True)
+    profile = forms.ImageField(label='Profile')
     class Meta:
         model = TailorUser
-        fields = ['first_name', 'last_name', 'username', 'email','phone', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email','phone', 'password1', 'password2','profile']
     def __init__(self,*args, **kwargs) -> None:
         super(CreateTailorForm,self).__init__(*args, **kwargs)
         self.fields['password1'].widget = forms.PasswordInput(attrs={'placeholder':"Password",'class':'password'})

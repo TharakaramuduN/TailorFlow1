@@ -65,7 +65,7 @@ def customer_details(request,customer_id):
         customer = Customer.objects.get(id=customer_id)
         measurements = Measurements.objects.filter(customer=customer).first()
         form = MeasurementsForm(instance=measurements) if measurements else None
-        if request.method == 'POST' and "delete_customer" in request.POST:
+        if request.method == 'POST':
             customer.delete()
             return redirect('/customers')
         return render(request,'customers/customer_details.html',context={'customer':customer,'form':form})

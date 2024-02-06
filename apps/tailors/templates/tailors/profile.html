@@ -1,9 +1,27 @@
 {% extends 'base.html'%}
 
 {% block content%}
-    hello {{user}}
     <form action="" method="post">
         {% csrf_token%}
-        <button>Logout</button>
+        <section class="tailor-details-section sm:p-10">
+            <div class="tailor-details-content max-w-5xl mx-auto">
+                <div class="profile-card flex flex-col sm:flex-row border sm:p-10 p-5 relative text-center sm:text-left items-center sm:items-start rounded-md">
+                    <div class="img-container sm:mr-10 mb-2 sm:mb-0">
+                        <img class=" sm:h-40 sm:w-40 h-20 w-20 rounded-full" src={{user.profile.url}} alt="">
+                    </div>
+                    <div class="details-container sm:space-y-5 space-y-3">
+                        <p class=" text-2xl font-medium sm:pt-3">{{user.first_name}} {{user.last_name}}</p>
+                        <p><i class="fa-solid fa-phone mr-3"></i>{{user.phone}}</p>
+                        <div class="email-location flex sm:flex-row flex-col flex-wrap justify-center sm:justify-normal items-center sm:items-start space-y-3 sm:space-y-0">
+                            <div class=" flex items-center sm:mr-4 sm:mb-2"><i class="fa-solid fa-envelope mr-3"></i>{{user.email}}</div> 
+                            <!-- <div class=" flex items-center"><i class="fa-solid fa-location-dot mr-2"></i> {{customer.city}}</div> -->
+                        </div>
+                    </div>
+                    <div class="absolute top-0 right-0 h-fit w-fit p-2 sm:p-5 flex gap-3">
+                        <button  class="edit-btn sm:block hidden bg-yellow-500 px-3 rounded-md ">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </form>
 {%endblock content%}

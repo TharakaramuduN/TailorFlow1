@@ -11,7 +11,6 @@
 
     <form action="" method="post">
         {%csrf_token%}
-        <input type="hidden" name="delete_customer" value="true">
 
         <section class=" customer-details-section p-5 sm:p-10 rounded-md">
 
@@ -48,9 +47,11 @@
 
                 <div class="measurements border sm:m-3">
                     <h1 class=" text-center text-xl font-medium mt-3">{{customer.first_name}}'s measurements 
-                        <span class=" px-2">
-                            <a href="{% url 'edit-measurements' customer.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
-                        </span>
+                        {%if form%}
+                            <span class=" px-2">
+                                <a href="{% url 'edit-measurements' customer.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                            </span>
+                        {%endif%}
                     </h1>
                     <div class="measurements-container">
                         {%if form%}
