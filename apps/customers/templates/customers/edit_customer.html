@@ -2,13 +2,11 @@
 {%load static%}
 {%block title%} Edit Customer {%endblock title%}
 
-{%block content%}
+{%block stylesheet%}
+    <link rel="stylesheet" href="{% static 'css/edit_customer.css'%}">
+{%endblock stylesheet%}
 
-    <style>
-        .errorlist{
-            color: rgb(251, 33, 33);
-        }
-    </style>
+{%block content%}
 
     <div class="form-container bg-black text-white">
         <form action="" class="  md:max-w-3xl mx-auto" method="post" enctype="multipart/form-data">
@@ -41,14 +39,22 @@
                         <div class="error text-red-500">{{form.phone.errors}}</div>
                     </div>
                 </div>
-                <div class="email flex flex-col gap-2 w-[70%] mx-[15%] sm:w-[90%] sm:mx-[5%]">
-                    <label class=" text-lg text-yellow-400" for="">{{form.profile.label}}</label>
-                    <div class="curr-img">
-                        <p class=" py-2">Current Image:</p>
-                        <img class=" h-14 w-14" src=/media/{{form.profile.value}} alt="">
+
+                <div class=" flex sm:flex-row flex-col sm:gap-[10%] gap-5 justify-center sm:items-start items-center">
+                    <div class="profile flex flex-col gap-2 w-[70%] sm:w-[40%] ">
+                        <label class=" text-lg text-yellow-400" for="">{{form.profile.label}}</label>
+                        <div class="curr-img">
+                            <p class=" py-2">Current Image:</p>
+                            <img class=" h-14 w-14" src=/media/{{form.profile.value}} alt="">
+                        </div>
+                        Change Image:
+                        <input type="file" accept="image/*" name={{form.profile.name}}>
                     </div>
-                    Change Image:
-                    <input type="file" accept="image/*" name={{form.profile.name}}>
+                    <div class="gender flex flex-col gap-2 w-[70%] sm:w-[40%]">
+                        <label class="lg text-yellow-400" for="">{{form.gender.label}}</label>
+                        {{form.gender}}
+                        {{form.gender.errors}}
+                    </div>
                 </div>
                 <div class="submit-btn flex justify-center pb-5">
                     <button type="submit" class=" border border-black bg-yellow-500 text-black px-5 mt-5 rounded py-2">Save</button>

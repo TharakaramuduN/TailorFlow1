@@ -40,9 +40,9 @@
                 <td class=" rounded-r-lg">Details</td>
               </tr>
             </thead>
-            <tbody class="  ">
+            <tbody class="">
               {% for customer in customers%}
-              <tr class="">
+              <tr class="backdrop-blur-md">
                 <td class=" flex justify-center items-center h-14"><img class=" h-10 w-10 rounded-full" src={{customer.profile.url}} alt=""></td>
                 <td>{{customer.first_name}}</td>
                 <td>{{customer.phone}}</td>

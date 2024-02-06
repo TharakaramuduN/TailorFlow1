@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from .forms import CustomerForm
+from .forms import CustomerForm,MeasurementsForm
 from django.db import IntegrityError
 from .models import Customer  # Import your Customer model
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+
 
 
 @login_required
@@ -24,7 +26,7 @@ def new_customer(request):
                     customer = form.save(commit=False)
                     customer.tailor = request.user
                     customer.save()
-                    return redirect('/')
+                    return redirect('/customers')
                 except IntegrityError as e:
                     # Handle any potential IntegrityError that may occur during the save
                     print(e)
@@ -56,8 +58,23 @@ def customers(request):
 
 @login_required
 def customer_details(request,customer_id):
-    customer = Customer.objects.get(id=customer_id)
-    return render(request,'customers/customer_details.html',context={'customer':customer})
+    try:
+        customer = Customer.objects.get(id=customer_id)
+        if request.method == 'POST':
+            customer.delete()
+            return redirect('/customers')
+        return render(request,'customers/customer_details.html',context={'customer':customer})
+    except:
+            return HttpResponse('customer not exist.')
 
-def add_measurements(request):
-    return render(request,'customers/add_measurements.html')
+@login_required
+def add_measurements(request,customer_id):
+    form = MeasurementsForm()
+    customer = Customer.objects.get(id=customer_id)
+    if request.method == "POST":
+        form = MeasurementsForm(request.POST)
+        if form.is_valid():
+            measurements = form.save()
+            return redirect('/customers')
+        print('form is not valid')
+    return render(request,'customers/add_measurements.html',context={'form':form,'customer':customer})
