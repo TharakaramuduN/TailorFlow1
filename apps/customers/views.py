@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import CustomerForm,MeasurementsForm
 from django.db import IntegrityError
-from .models import Customer  # Import your Customer model
+from .models import Customer, Measurements
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
@@ -40,8 +40,10 @@ def edit_customer(request,customer_id):
     if request.method == 'POST':
         form = CustomerForm(request.POST,request.FILES,instance=customer)
         if form.is_valid():
-            form.save()
-            return redirect('/customers')
+            customer = form.save(commit=False)
+            customer.tailor = request.user
+            customer.save()
+            return redirect(customer_details,customer_id=customer_id)
     else:
         form = CustomerForm(instance=customer)
     return render(request,'customers/edit_customer.html',context={'form':form})
@@ -58,23 +60,40 @@ def customers(request):
 
 @login_required
 def customer_details(request,customer_id):
+    print(request.POST)
     try:
         customer = Customer.objects.get(id=customer_id)
-        if request.method == 'POST':
+        measurements = Measurements.objects.filter(customer=customer).first()
+        form = MeasurementsForm(instance=measurements) if measurements else None
+        if request.method == 'POST' and "delete_customer" in request.POST:
             customer.delete()
             return redirect('/customers')
-        return render(request,'customers/customer_details.html',context={'customer':customer})
-    except:
-            return HttpResponse('customer not exist.')
+        return render(request,'customers/customer_details.html',context={'customer':customer,'form':form})
+    except Customer.DoesNotExist:
+        return HttpResponse('Customer does not exist.')
 
 @login_required
 def add_measurements(request,customer_id):
-    form = MeasurementsForm()
     customer = Customer.objects.get(id=customer_id)
+    form = MeasurementsForm()
     if request.method == "POST":
         form = MeasurementsForm(request.POST)
         if form.is_valid():
-            measurements = form.save()
-            return redirect('/customers')
-        print('form is not valid')
+            measurements = form.save(commit=False)
+            measurements.customer = customer
+            measurements.save()
+            return redirect(customer_details,customer_id=customer_id)
+        print("form not valid")
     return render(request,'customers/add_measurements.html',context={'form':form,'customer':customer})
+
+@login_required
+def edit_measurements(request,customer_id):
+    customer = Customer.objects.get(id=customer_id)
+    measurements = Measurements.objects.get(customer=customer)
+    form = MeasurementsForm(instance=measurements)
+    if request.method == "POST":
+        form = MeasurementsForm(request.POST,instance=measurements)
+        if form.is_valid():
+            form.save()
+            return render(request,'customers/customer_details.html',context={'customer':customer,'form':form})
+    return render(request,'customers/edit_measurements.html',context={'customer':customer,'form':form})

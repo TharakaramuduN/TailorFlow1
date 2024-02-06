@@ -3,6 +3,7 @@ from apps.tailors.models import TailorUser
 from django.dispatch import receiver
 from django.db.models.signals import pre_delete
 import os
+from django.conf import settings
 # from orders.models import Order
 # from transactions.models import Transaction
 # Create your models here. 
@@ -31,8 +32,8 @@ class Customer(models.Model):
 @receiver(pre_delete,sender=Customer)
 def delete_profile_images(sender,instance,*args, **kwargs):
     image_path = instance.profile.path
-    print(image_path)
-    if instance.profile and image_path != 'default/profile-user.png':
+    print(image_path,"no path")
+    if instance.profile and image_path != os.path.join(settings.BASE_DIR, 'media', 'default', 'profile-user.png'):
         if os.path.exists(image_path):
             os.remove(image_path)
                 
@@ -41,19 +42,19 @@ def delete_profile_images(sender,instance,*args, **kwargs):
 class Measurements(models.Model):
     customer = models.OneToOneField(
         Customer, on_delete=models.CASCADE, primary_key=True)
-    neck = models.FloatField(null=True, blank=True)
-    chest = models.FloatField(null=True, blank=True)
-    waist = models.FloatField(null=True, blank=True)
-    hips = models.FloatField(null=True, blank=True)
-    thigh = models.FloatField(null=True, blank=True)
-    knee = models.FloatField(null=True, blank=True)
-    calf = models.FloatField(null=True, blank=True)
-    sleeve = models.FloatField(null=True, blank=True)
-    back = models.FloatField(null=True, blank=True)
-    waistband = models.FloatField(null=True, blank=True)
-    outseam = models.FloatField(null=True, blank=True)
-    inseam = models.FloatField(null=True, blank=True)
-    ankle = models.FloatField(null=True, blank=True)
+    neck = models.FloatField(null=True, blank=True,default=0)
+    chest = models.FloatField(null=True, blank=True,default=0)
+    waist = models.FloatField(null=True, blank=True,default=0)
+    hips = models.FloatField(null=True, blank=True,default=0)
+    thigh = models.FloatField(null=True, blank=True,default=0)
+    knee = models.FloatField(null=True, blank=True,default=0)
+    calf = models.FloatField(null=True, blank=True,default=0)
+    sleeve = models.FloatField(null=True, blank=True,default=0)
+    back = models.FloatField(null=True, blank=True,default=0)
+    waistband = models.FloatField(null=True, blank=True,default=0)
+    outseam = models.FloatField(null=True, blank=True,default=0)
+    inseam = models.FloatField(null=True, blank=True,default=0)
+    ankle = models.FloatField(null=True, blank=True,default=0)
 
     def __str__(self) -> str:
         return self.customer.first_name

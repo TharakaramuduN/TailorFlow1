@@ -3,18 +3,20 @@
 
 {%block title%} Customer {%endblock title%}
 {%block stylesheet%}
-<link rel="stylesheet" href="{%static 'css/customer_details.css'%}"> 
+<link rel="stylesheet" href="{%static 'css/customer_details.css'%}">
+<link rel="stylesheet" href="{% static 'css/add_measurements.css'%}">
 {%endblock stylesheet%}
 
 {%block content%}
 
     <form action="" method="post">
         {%csrf_token%}
+        <input type="hidden" name="delete_customer" value="true">
 
-        <section class=" customer-details-section p-10 rounded-md">
+        <section class=" customer-details-section p-5 sm:p-10 rounded-md">
 
             <div class="customer-details-content max-w-5xl mx-auto">
-                <div class="profile-card flex flex-col sm:flex-row border sm:p-10 p-5 relative text-center sm:text-left items-center sm:items-start">
+                <div class="profile-card flex flex-col sm:flex-row border sm:p-10 p-5 relative text-center sm:text-left items-center sm:items-start rounded-md">
                     <div class="img-container sm:mr-10 mb-2 sm:mb-0">
                         <img class=" sm:h-40 sm:w-40 h-20 w-20 rounded-full" src={{customer.profile.url}} alt="">
                     </div>
@@ -29,8 +31,45 @@
                     <div class="absolute top-0 right-0 h-fit w-fit p-2 sm:p-5 flex gap-3">
                         <a href="{%url 'edit-customer' customer.id%}" class="edit-btn sm:block hidden bg-blue-500 px-3 rounded-md text-white">Edit</a>
                         <button type="button" onclick="openDialog()" id="delete-btn-lg"   class=" sm:block hidden bg-red-500 px-3 rounded-md text-white">Delete</button>
-                        <a href="{%url 'edit-customer' customer.id%}" class="edit-btn sm:hidden"><i class="fa-regular fa-pen-to-square"></i></a>
-                        <button type="button" onclick="openDialog()" id="delete-btn-sm"  class="edit-btn sm:hidden"><i class="fa-solid fa-trash text-red-600"></i></button>
+                        <a href="{%url 'edit-customer' customer.id%}" class="edit-btn sm:hidden"><i class="fa-regular fa-pen-to-square text-xl"></i></a>
+                        <button type="button" onclick="openDialog()" id="delete-btn-sm"  class="edit-btn sm:hidden"><i class="fa-solid fa-trash text-red-600 text-xl"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="measurements-orders-transacctions max-w-5xl mx-auto border mt-5 rounded-md">
+
+                <div class="buttons p-3">
+                    <button type="button" class=" px-2 border rounded-md text-sm">Measurements</button>
+                    <button type="button" class=" px-2 border rounded-md text-sm">Orders</button>
+                    <button type="button" class=" px-2 border rounded-md text-sm">Transactions</button>
+                </div>
+
+
+                <div class="measurements border sm:m-3">
+                    <h1 class=" text-center text-xl font-medium mt-3">{{customer.first_name}}'s measurements 
+                        <span class=" px-2">
+                            <a href="{% url 'edit-measurements' customer.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                        </span>
+                    </h1>
+                    <div class="measurements-container">
+                        {%if form%}
+                            {% include 'customers/view_measurements.html' with measurements_content='measurements_content' %}
+                        {%else%}
+                            <a class=" border px-3 bg-gray-500 rounded-md" href="{%url 'add-measurements' customer.id%}">Add Measurements</a>
+                        {%endif%}
+                    </div>
+                </div>
+
+                <div class="orders">
+                    <div class="orders-container">
+
+                    </div>
+                </div>
+
+                <div class="transactions">
+                    <div class="tranactions-container">
+
                     </div>
                 </div>
             </div>

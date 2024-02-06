@@ -7,12 +7,12 @@
 <form action="" method="post">
     {%csrf_token%}
     <section class="measurements-section w-full ">
-        <h1 class=" p-5 text-xl font-medium text-center">Add {{customer.first_name}}'s measurements</h1>
+        <h1 class=" p-5 text-xl font-medium text-center">Edit {{customer.first_name}}'s measurements</h1>
 
         {%include 'customers/measurements_form.html' with measurements_content='measurements_content'%}
         
         <div class=" flex justify-center items-center pb-7 ">
-            <button type="submit" class=" bg-yellow-400 px-3 rounded-md hover:bg-yellow-300">Submit</button>
+            <button type="submit" class=" bg-yellow-400 px-3 rounded-md hover:bg-yellow-300">Save</button>
         </div>
     </section>
 </form>

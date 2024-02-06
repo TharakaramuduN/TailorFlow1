@@ -11,4 +11,5 @@ urlpatterns = [
     path('add-measurements/<int:customer_id>',views.add_measurements,name='add-measurements'),
     path('edit-customer/<int:customer_id>',views.edit_customer,name='edit-customer'),
     path('customer-details/<int:customer_id>',views.customer_details,name="customer-details"),
+    path('edit-measurements/<int:customer_id>',views.edit_measurements,name='edit-measurements')
 ] 
