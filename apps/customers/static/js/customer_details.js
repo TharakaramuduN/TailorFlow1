@@ -9,7 +9,7 @@ function openDialog(){
     dialogBox.style.display = 'flex'
 }
 
-document.onclick = function(event){
+dialogBox.onclick = function(event){
     if(event.target.id === 'dialog'){
         dialogBox.style.display = 'none'
     }

@@ -32,26 +32,27 @@
       </div>
       <ul>
         <li><a href="{%url 'home'%}">Home</a></li>
-        <li><a href="">Orders</a></li>
+        <li><a href="{%url 'orders'%}">Orders</a></li>
         <li><a href="{%url 'customers'%}">Customers</a></li>
         <li><a href="">Transactions</a></li>
+        <li><a href="{%url 'products'%}">Products</a></li>
         <li><a href="{%url 'profile'%}">Profile</a></li>
       </ul>
       <div class="sm:hidden text-white">
         <button onclick="toggleMenu(event)"  class="hamburger-btn" type="button"><i class="fa-solid fa-bars text-xl"></i></button>
       </div>
     </nav>
-
-
-      <div class="mobile-nav right-0 top-0 w-[60vw] fixed h-fit bg-[#f8f9fa] z-20 sm:hidden translate-x-[100%] transition-transform transform delay-200">
-        <button onclick="toggleMenu(event)" class="xmark-btn top-[3%] right-[8%] absolute  p-2">
+    
+    
+    <div class="mobile-nav-container right-0 top-0  fixed w-screen h-screen translate-x-[100%] z-20 sm:hidden  transition-transform transform delay-200">
+        <button onclick="toggleMenu(event)" class="xmark-btn top-[2%] right-[5%] absolute  p-2 z-20">
           <i class="fa-solid fa-xmark  text-xl"></i>
         </button>
-        <div class="nav-content">
+        <div id="nav" class="nav-content w-[60vw] h-fit bg-[#f8f9fa] top-0 right-0 absolute">
           <ul class=" p-10 gap-8 flex flex-col pt-16">
             <li><a class="flex gap-2" href="{%url 'home'%}"> <span><i class="fa-solid fa-house"></i></span> Home</a></li>
             <li>
-              <a class="flex gap-2" href="">
+              <a class="flex gap-2" href="{% url 'orders'%}">
                 <span class=" flex items-center justify-center">
                   <img class=" h-4 w-4 text-white" src="{%static 'icons/shopping-bag.png'%}" alt="">
                 </span> Orders
@@ -66,28 +67,35 @@
             </li>
             <li>
               <a class="flex gap-2" href="">
-              <span class=" flex items-center justify-center">
+                <span class=" flex items-center justify-center">
                 <img class=" h-4 w-4 text-white" src="{%static 'icons/transaction.png'%}" alt="">
               </span> Transactions
-              </a>
-            </li>
+            </a>
+          </li>
             <li>
-              <a class="flex gap-2" href="{%url 'profile'%}">
+              <a class="flex gap-2" href="{%url 'products'%}">
+                <span class=" flex items-center justify-center">
+                <img class=" h-4 w-4 text-white" src="{%static 'icons/transaction.png'%}" alt="">
+              </span> Products
+            </a>
+          </li>
+          <li>
+            <a class="flex gap-2" href="{%url 'profile'%}">
               <span class=" flex items-center justify-center">
                 <img class=" h-4 w-4 text-white" src="{%static 'icons/profile-user.png'%}" alt="">
               </span> Profile
             </a>
           </li>
         </ul>
-        </div>
       </div>
-      
+    </div>
+    
     {% block content %}
     
     {%block measurements_content%}
     {%endblock measurements_content%}
     
-    {% endblock %}
+    {% endblock content%}
 
     <footer class="footer">
       <div class="container">

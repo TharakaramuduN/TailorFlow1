@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+
+{%block content%}
+    <style>
+        #id_description{
+            font-size: smaller;
+        }
+    </style>
+    <section class="products-section">
+        <div class="container mx-auto sm:px-3 px-2 max-w-5xl">
+            <h1 class="mt-5 text-3xl font-semibold">Product List</h1>
+            <a href="{%url 'create-product'%}" class=" border px-3 py-1 bg-black text-white rounded-md ">Add Product</a>
+            <div class="flex flex-wrap  sm:gap-6 gap-3 mt-8 justify-items-center justify-center">
+                {% for product in products %}
+                <div class=" sm:w-[220px] w-[170px] rounded  shadow-lg h-fit justify-center">
+                    <div class="product-img sm:h-[280px] sm:w-[210px] w-[170px] h-[250px]">
+                        <img loading="lazy" class="w-full h-full sm:p-5 p-3 rounded-3xl" src="{{ product.image.url }}" alt="{{ product.title }}">
+                    </div>
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-sm mb-2">{{ product.title }}</div>
+                        <p class="text-gray-700 text-sm">{{ product.description }}</p>
+                        <p class="text-gray-800 text-base font-semibold mt-2">₹{{ product.price }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+    </section>
+{%endblock content%}

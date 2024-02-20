@@ -1,0 +1,93 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block stylesheet%}
+    <link rel="stylesheet" href="{%static 'css/create_product.css'%}">
+{%endblock stylesheet%}
+
+{%block content%}
+  <style>
+    input,textarea{
+      background-color: rgb(249 250 251); 
+      border: 1px solid rgb(209 213 219);
+      padding: 0.625rem;
+      border-radius: 0.5rem;
+      width: 100%;
+    }
+    select{
+      background-color: rgb(249 250 251); 
+      border-radius: 0.5rem;
+    border: 1px solid rgb(209 213 219);
+   }
+  </style>
+    <section class="create-product-section">
+        <div class="create-product-content">
+            <form method="POST" enctype="multipart/form-data">
+                {%csrf_token%}
+                <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto">
+                  <div class="w-full bg-white rounded-lg shadow border md:mt-0 sm:max-w-2xl xl:p-0">
+                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                      <p class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+                        Create Product
+                        </p><div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900">
+                            Name/Title
+                          </label>
+                          {{form.title}}
+                          {{form.title.errors}}
+                        </div>
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900">
+                            Description
+                          </label>
+                          {{form.description}}
+                          {{form.description.errors}}
+                        </div>
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900">
+                            Price
+                          </label>
+                          {{form.price}}
+                          {{form.price.errors}}
+                        </div>
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900">
+                            Gender
+                          </label>
+                          {{form.gender}}
+                          {{form.gender.errors}}
+                        </div>
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900">
+                            Category
+                          </label>
+                          {{form.category}}
+                          {{form.category.errors}}
+                        </div>
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900">
+                            Inventory/Stock
+                          </label>
+                          {{form.inventory}}
+                          {{form.inventory.errors}}
+                        </div>
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900">
+                            Product Image
+                          </label>
+                          {{form.image}}
+                          {{form.image.errors}}
+                        </div>
+          
+                        <button class="w-full bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  focus:ring-blue-800 text-white" type="submit">
+                          Create Product
+                        </button>
+                      
+                    </div>
+                  </div>
+                </div>
+            </form>
+        </div>
+    </section>
+      
+
+{%endblock content%}

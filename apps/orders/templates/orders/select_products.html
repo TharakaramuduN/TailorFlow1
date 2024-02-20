@@ -1,0 +1,39 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block content%}
+
+    <style>
+        .footer{
+            display: none;
+        }
+    </style>
+    <form action="{%url 'checkout' customer_id%}" method="POST">
+        {%csrf_token%}
+    <section class="products-section flex flex-col justify-center">
+        <div class="container mx-auto px-4">
+            <h1 class="mt-5 text-3xl font-semibold">Product List</h1>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8 justify-items-center">
+                {% for product in products %}
+
+                    <div onclick="toggleCheckbox(event)" class="product-card hover:cursor-pointer max-w-[24rem] sm:min-w-[14rem] sm:w-full w-[80%] rounded overflow-hidden shadow-lg h-[350px] sm:h-[400px] relative">
+                        <img class=" h-[60%] w-full  p-5 rounded-3xl" src="{{ product.image.url }}" alt="{{ product.title }}">
+                        <ul class="px-6 py-4">
+                            <li><h1 class="font-bold text-sm mb-2">{{ product.title }}</h1></li>
+                            <li><p class="text-gray-700 text-sm">{{ product.description }}</p></li>
+                            <li><p class="text-gray-800 text-base font-semibold mt-2">${{ product.price }}</p></li>
+                        </ul>
+                        <input name="selected_products" type="checkbox" class=" absolute bottom-0 right-0 block h-[6%] w-[6%]" value={{product.id}}>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class=" flex justify-center">
+            <button class=" fixed bottom-[5%] px-3 py-1 bg-[#24262b] text-white rounded-md">Checkout</button>
+        </div>
+    </section>
+</form>
+    <script src="{%static 'js/select_products.js'%}"></script>
+    
+{%endblock content%}
+

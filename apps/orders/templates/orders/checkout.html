@@ -1,0 +1,111 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block stylesheet%}
+    <link rel="stylesheet" href="{%static 'css/checkout.css'%}">
+{%endblock stylesheet%}
+
+
+{%block content%} 
+    <form action="" method="POST">
+      {%csrf_token%}
+      {{order_form.tailor.as_hidden}}
+      {{order_form.customer.as_hidden}}
+      {{formset.management_form}}
+      <input type="hidden" name="checkout" value="true">
+      <h1 class=" text-center text-xl font-medium"> {{customer.first_name}}'s checkout page</h1>
+    <section class="checkout-section">
+        <div class="checkout-container flex justify-center items-center mx-5">
+            <div class="master-container my-5 max-w-2xl w-full">
+                <div class="card cart">
+                  <label class="title">Your cart</label>
+                  <div class="products flex gap-3 my-4">
+                    {% for product in selected_products %}
+                      <div class="product-container">
+                        <div class="product flex justify-between">
+                          <input type="hidden" name='form-{{forloop.counter0}}-product' value="{{product.id}}">
+                          <div class=" flex gap-3">
+                            <img class=" h-20 w-16" src="{{product.image.url}}" alt="">
+                            <div>
+                                <span>{{product.title}}</span>
+                                {{formset.product.as_hidden}}
+                                {{formset.status.as_hidden}}
+                                <p class=" w-fit">{{product.description|truncatewords:'2'}}</p>
+                                <p class=" w-fit">No mayo</p>
+                              </div>
+                          </div>
+                          
+
+                        <div class=" flex flex-col">
+                          <input class="unit-price" type="hidden" value="{{product.price}}">
+                          <label class="price small flex">₹{{product.price}}</label>
+                            <div class="quantity">
+                              <button type="button" class=" flex justify-center items-center decrement-button">
+                                    -
+                                </button>
+                                <input name='form-{{forloop.counter0}}-quantity' class=" w-6 quantity-input" type="number" value="1">
+                                <button type="button" class=" flex justify-center items-center increment-button">
+                                  +
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class=" text-end text-xs text-gray-600 py-2 flex justify-between sm:my-3 my-2">
+                            <div class="requested_date flex flex-wrap gap-2">
+                              <label class=" text-xs sm:text-sm" for="requested_date">Requested Date:</label>
+                              <input class=" text-xs sm:text-sm" type="date" name="form-{{forloop.counter0}}-requested_date" id="requested_date" required>
+                            </div>
+                            <span onclick="addNotes(event)" class="add-btn border px-2  rounded bg-gray-200 hover:cursor-pointer">+ Add-Notes</span>
+                          </div>
+                          <textarea class=" hidden w-full border sm:p-3 p-2 rounded-md sm:text-sm text-xs mb-3" name='form-{{forloop.counter0}}-notes' id='notes' rows="2" placeholder="Add notes here..."></textarea>
+                          <div class="is-urgent flex justify-end items-center gap-3 my-3">
+                            <span class=" sm:text-sm text-xs">Urgent:</span>
+                            <label onclick="toggleUrgent(event)" class="toggle-switch">
+                              <input class=" urgent-checkbox" name='form-{{forloop.counter0}}-urgent' type="checkbox">
+                              <div class="toggle-switch-background">
+                                <div class="toggle-switch-handle"></div>
+                              </div>
+                            </label>                            
+                          </div>
+                          <hr class=" my-3">
+                        {% endfor %}
+                      </div>
+                  </div>
+                </div>
+              
+                <div class="card coupons">
+                  <label class="title">Apply coupons</label>
+                  <form class="form">
+                      <input type="text" placeholder="Apply your coupons here" class="input_field">
+                      <button type="button">Apply</button>
+                  </form>
+                </div>
+              
+                <div class="card checkout">
+
+                  <label class="title">Checkout</label>
+
+                  <div class="details">
+                    <span>Your cart subtotal:</span>
+                    <span class="sub-total"></span>
+                    <span>Discount through applied coupons:</span>
+                    <span>3.99$</span>
+                    <span>Payment Type</span>
+                    <span>{{order_form.payment_type}}</span>
+                  </div>
+
+                    <div class="checkout--footer">
+                      <label class="final-price text-xl font-medium"><sup>₹</sup>57.99</label>
+                      {{order_form.total_price.as_hidden}}
+                      <button type="submit" class="checkout-btn">Create Order</button>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </section>
+    </form>
+    <script src="{%static 'js/checkout.js'%}"></script>
+{%endblock content%}

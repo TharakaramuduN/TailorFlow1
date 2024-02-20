@@ -33,6 +33,8 @@
     height: 1rem;
    }
 
+
+
 table tbody tr:nth-child(even){
     background-color: #0000000b;
 }
@@ -44,6 +46,13 @@ table thead tr{
 table tbody tr{
     height: 3.5rem;
 }
+
+
+select{
+    background-color: rgb(249 250 251); 
+    border-radius: 0.5rem;
+  border: 1px solid rgb(209 213 219);
+ }
 
 @media screen and (max-width:940px) {
     table thead tr td:nth-child(5){
@@ -63,11 +72,11 @@ table tbody tr{
     }
 }
 
-@media screen and (max-width:520px) {
+/* @media screen and (max-width:520px) {
     table thead tr td:nth-child(3){
         display: none;
     }
     table tbody tr td:nth-child(3){
         display: none;
     }
-}
+} */

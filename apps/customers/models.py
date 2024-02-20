@@ -12,15 +12,14 @@ class Customer(models.Model):
     gender_choices = [
         ('M',"Male"),
         ('F',"Female"),
-        ('O',"Other"),
     ]
-    tailor = models.ForeignKey(TailorUser,on_delete=models.CASCADE,null=True,blank=True)
+    tailor = models.ForeignKey(TailorUser,on_delete=models.CASCADE,blank=True)
     # orders = models.ForeignKey(Order,on_delete=models.CASCADE,null=True)
     # transactions = models.ForeignKey(Transaction,on_delete=models.CASCADE,null=True)
     first_name = models.CharField(max_length=100,blank=False)
     last_name = models.CharField(max_length = 100)
     email = models.EmailField(blank=False)
-    gender = models.CharField(max_length=1,choices=gender_choices,default='M')
+    gender = models.CharField(max_length=1,choices=gender_choices)
     city = models.CharField(max_length=50,blank=False)
     phone = models.CharField(max_length=20,blank=False)
     profile = models.ImageField(blank=True,null=True,upload_to='profile/',default='default/profile-user.png')
@@ -32,7 +31,6 @@ class Customer(models.Model):
 @receiver(pre_delete,sender=Customer)
 def delete_profile_images(sender,instance,*args, **kwargs):
     image_path = instance.profile.path
-    print(image_path,"no path")
     if instance.profile and image_path != os.path.join(settings.BASE_DIR, 'media', 'default', 'profile-user.png'):
         if os.path.exists(image_path):
             os.remove(image_path)

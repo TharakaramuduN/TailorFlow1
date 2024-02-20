@@ -1,0 +1,41 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block stylesheet%}
+<link rel="stylesheet" href="{%static 'css/add_products.css'%}">
+{%endblock stylesheet%}
+
+{%block content%}
+    <section class=" order-details-section">
+        <div class="order-details-container">
+            <div class="add-product-form flex gap-3 flex-col">
+                <div class="product-name">
+                    <label for="">Product Name</label>
+                    {{form.item_name}}
+                </div>
+                <div class="cloth-image flex flex-col gap-2">
+                    <label for="">Cloth Image</label>
+                    {{form.cloth_image}}
+                </div>
+                <div class="design-image flex flex-col gap-2">
+                    <label for="">Design Image</label>
+                    {{form.design_image}}
+                </div>
+                <div class="unit-price">
+                    <label for="">Unit Price</label>
+                    {{form.unit_price}}
+                </div>
+                <div class="quantity flex gap-3">
+                    <label for="">Quantity :</label>
+                    <span class=" flex gap-2">
+                        {{form.quantity}}
+                    </span>
+                </div>
+                <div class="requested-date flex gap-3">
+                    <label for="">Requested Pickup Date</label>
+                    {{form.requested_date}}
+                </div>
+            </div>
+        </div>
+    </section>
+{%endblock content%}

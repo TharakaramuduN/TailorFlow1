@@ -3,12 +3,14 @@ from .forms import CustomerForm,MeasurementsForm
 from django.db import IntegrityError
 from .models import Customer, Measurements
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-
-
+from django.http import HttpResponse, JsonResponse
+from django.urls import reverse
+from django.db.models import Q
+from django.conf import settings
 
 @login_required
 def new_customer(request):
+    next_url = request.GET.get('next','')
     form = CustomerForm() 
 
     if request.method == "POST":
@@ -26,7 +28,10 @@ def new_customer(request):
                     customer = form.save(commit=False)
                     customer.tailor = request.user
                     customer.save()
-                    return redirect('/customers')
+                    redirect_url = reverse('add-measurements',kwargs={'customer_id':customer.id}) + f'?next={next_url}'
+                    if next_url:
+                        return redirect(redirect_url)
+                    return redirect(add_measurements,customer_id=customer.id)
                 except IntegrityError as e:
                     # Handle any potential IntegrityError that may occur during the save
                     print(e)
@@ -60,7 +65,6 @@ def customers(request):
 
 @login_required
 def customer_details(request,customer_id):
-    print(request.POST)
     try:
         customer = Customer.objects.get(id=customer_id)
         measurements = Measurements.objects.filter(customer=customer).first()
@@ -74,6 +78,7 @@ def customer_details(request,customer_id):
 
 @login_required
 def add_measurements(request,customer_id):
+    next_url = request.GET.get('next','')
     customer = Customer.objects.get(id=customer_id)
     form = MeasurementsForm()
     if request.method == "POST":
@@ -82,8 +87,9 @@ def add_measurements(request,customer_id):
             measurements = form.save(commit=False)
             measurements.customer = customer
             measurements.save()
+            if next_url:
+                return redirect('select-products',customer_id=customer_id)
             return redirect(customer_details,customer_id=customer_id)
-        print("form not valid")
     return render(request,'customers/add_measurements.html',context={'form':form,'customer':customer})
 
 @login_required
@@ -95,5 +101,34 @@ def edit_measurements(request,customer_id):
         form = MeasurementsForm(request.POST,instance=measurements)
         if form.is_valid():
             form.save()
-            return render(request,'customers/customer_details.html',context={'customer':customer,'form':form})
+            return redirect(customer_details,customer_id=customer_id)
     return render(request,'customers/edit_measurements.html',context={'customer':customer,'form':form})
+
+@login_required
+def filter_customers(request):
+    search = request.GET.get('search','')
+    gender = request.GET.get('gender','')
+    sortby = request.GET.get('sortby','')
+
+    queryset = Customer.objects.filter(tailor=request.user)
+
+    if search:
+        queryset = queryset.filter(
+            Q(first_name__icontains=search) |
+            Q(last_name__icontains=search) |
+            Q(email__icontains=search) |
+            Q(city__icontains=search) |
+            Q(phone__icontains=search)
+        ).distinct()
+    
+    if gender:
+        queryset = queryset.filter(gender = gender)
+    
+    if sortby:
+        queryset = queryset.order_by(sortby)
+
+    customers_data = list(queryset.values())
+    print(customers_data)
+    for customer in customers_data:
+        customer['profile'] = settings.MEDIA_URL + str(customer['profile'])
+    return JsonResponse({'customers':customers_data})

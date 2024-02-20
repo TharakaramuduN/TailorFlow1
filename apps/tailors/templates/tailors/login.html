@@ -19,8 +19,9 @@
             <div class="form login">
                 <div class="form-content">
                     <header>Login</header>
-                   <p style="color: red; text-align:center; margin-top:10px;"> {{error_message}}</p>
+                    <p style="color: red; text-align:center; margin-top:10px;"> {{error_message}}</p>
                     <form method="post">
+                        <input type="hidden" name="next" value={{next}}>
                         {%csrf_token%}
                         <div class="field input-field">
                             {{form.username}}

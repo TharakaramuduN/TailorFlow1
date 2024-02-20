@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-xp8xt_6w%5jv_r_wno3=lyfi&qtf@1phik74gg_jbjsjfwp^fn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.41.169']
+ALLOWED_HOSTS = ['192.168.202.169']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.customers.apps.CustomersConfig',
     'apps.transactions.apps.TransactionsConfig',
     'apps.tailors.apps.TailorsConfig',
+    'apps.products.apps.ProductsConfig',
     # 'apps.profile_app.apps.ProfileAppConfig'
 ]
 
@@ -126,6 +127,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR,'apps/customers/static')
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -29,13 +29,13 @@
                     </div>
                     <div class="absolute top-0 right-0 h-fit w-fit p-2 sm:p-5 flex gap-3">
                         <a href="{%url 'edit-customer' customer.id%}" class="edit-btn sm:block hidden bg-blue-500 px-3 rounded-md text-white">Edit</a>
-                        <button type="button" onclick="openDialog()" id="delete-btn-lg"   class=" sm:block hidden bg-red-500 px-3 rounded-md text-white">Delete</button>
+                        <button type="button" onclick="openDialog()" id="delete-btn-lg"   class=" sm:block hidden bg-[rgb(234,67,53)] px-3 rounded-md text-white">Delete</button>
                         <a href="{%url 'edit-customer' customer.id%}" class="edit-btn sm:hidden"><i class="fa-regular fa-pen-to-square text-xl"></i></a>
-                        <button type="button" onclick="openDialog()" id="delete-btn-sm"  class="edit-btn sm:hidden"><i class="fa-solid fa-trash text-red-600 text-xl"></i></button>
+                        <button type="button" onclick="openDialog()" id="delete-btn-sm"  class="edit-btn sm:hidden"><i class="fa-solid fa-trash text-[rgb(234,67,53)] text-xl"></i></button>
                     </div>
                 </div>
             </div>
-
+ 
             <div class="measurements-orders-transacctions max-w-5xl mx-auto border mt-5 rounded-md">
 
                 <div class="buttons p-3">
@@ -81,10 +81,10 @@
             <div class=" sm:h-40 sm:w-80 relative dialog-content rounded-md text-center p-4 space-y-4 bg-black bg-opacity-50 backdrop-blur-md">
               <h2>Are you sure?</h2>
               <p>You want to delete {{customer.first_name}}</p>
-              <div class=" flex sm:gap-2 justify-between sm:w-[65%] mx-auto">
-                <button type="submit" class=" bg-red-500 rounded-md px-2">Confirm</button>
+              <span class=" flex sm:gap-2 justify-between sm:w-[65%] mx-auto">
+                <button type="submit" class=" bg-[rgb(234,67,53)] rounded-md px-2">Confirm</button>
                 <button type="button" onclick="closeDialog()" class=" bg-green-500 rounded-md px-2">Cancel</button>
-              </div>
+              </span>
             </div>
         </div>
 

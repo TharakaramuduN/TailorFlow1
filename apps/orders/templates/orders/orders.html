@@ -1,0 +1,72 @@
+{%extends 'base.html'%}
+{%load static%} 
+
+{%block stylesheet%}
+  <link rel="stylesheet" href="{%static 'css/customers.css'%}">
+{%endblock stylesheet%}
+
+{%block content%}
+  <section class="customer-section"> 
+    <div class="customer-content max-w-6xl mx-auto sm:p-8 p-4">
+
+      <div class=" flex justify-between ">
+        <h1 class=" text-xl sm:text-3xl font-medium">Orders</h1>
+        <button class=" sm:px-4 px-2 rounded-full bg-yellow-500 text-black font-medium">
+          <a href="{%url 'select-customer'%}">Create Order</a>
+        </button>
+      </div>
+
+      <div class="border rounded-lg h-fit sm:p-4 p-2 my-5 gap-3">
+          <div class="searchbar-filters flex gap-3 flex-wrap w-full justify-between items-center">
+            <div class="group">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+              <input oninput="filterCustomers()" placeholder="Search" type="search" class="input search-input">
+            </div>
+            <div class="flex gap-3">
+              <span class=" gap-2 flex flex-wrap">
+                <label for="gender">Gender :</label>
+                <select onchange="filterCustomers()" name="gender" id="gender">
+                  <option value="D">--------</option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                </select>
+             </span>
+             <span class=" gap-2 flex flex-wrap" >
+                <label for="sortby">Sort by :</label>
+                <select onchange="filterCustomers()" name="sortby" id="sortby">
+                  <option value="D">-------</option>
+                  <option value="first_name">First Name</option>
+                  <option value="city">City</option>
+                  <option value="created_at">Created date</option>
+                </select>
+             </span>
+            </div>
+          </div>
+
+
+          <table class=" w-full  border my-5 rounded-3xl text-sm sm:text-base">
+            <thead class=" bg-[#2b2d42] text-white ">
+              <tr class="">
+                <td>Order Id</td>
+                <td>Customer</td>
+                <td>Total Price</td>
+                <td>Details</td>
+              </tr>
+            </thead>
+            <tbody class="">
+              {% for order in orders%}
+              <tr class="">
+                <td>{{order.id}}</td>
+                <td>{{order.customer.first_name}}</td>
+                <td>{{order.total_price}}</td>
+                <td><a href="{%url 'order-details' order.id%}">View</a></td>
+
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </section>
+  <!-- <script src="{%static 'js/customers.js'%}"></script> -->
+{%endblock content%}

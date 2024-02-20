@@ -2,3 +2,5 @@ env/
 __pycache__/
 node_modules/
 media/profile/
+media/tailor_profiles
+media/product_images
