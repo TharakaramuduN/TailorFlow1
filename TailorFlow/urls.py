@@ -27,6 +27,7 @@ urlpatterns = [
     path('',include('apps.profile_app.urls')),
     path('',include('apps.orders.urls')),
     path('',include('apps.products.urls')),
+    path('',include('apps.dashboard.urls'))
 ]
 
 if settings.DEBUG:

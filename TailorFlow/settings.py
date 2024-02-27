@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-xp8xt_6w%5jv_r_wno3=lyfi&qtf@1phik74gg_jbjsjfwp^fn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.202.169']
+ALLOWED_HOSTS = ['192.168.74.169']
 
 
 # Application definition
@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'apps.transactions.apps.TransactionsConfig',
     'apps.tailors.apps.TailorsConfig',
     'apps.products.apps.ProductsConfig',
-    # 'apps.profile_app.apps.ProfileAppConfig'
+    # 'apps.profile_app.apps.ProfileAppConfig',
+    'apps.dashboard.apps.DashboardConfig',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'tailors.TailorUser' 
 
 LOGIN_URL = '/login/'
+
+# DATE_INPUT_FORMATS = [
+#     '%d-%m-%Y',     # '25-10-2022'
+#     '%d/%m/%Y',     # '25/10/2022'
+#     '%Y-%m-%d',     # '2022-10-25'
+#     '%Y/%m/%d',     # '2022/10/25'
+# ]

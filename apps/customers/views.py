@@ -39,7 +39,7 @@ def new_customer(request):
 
     return render(request, 'customers/new_customer.html', context={'form': form})
 
-
+@login_required
 def edit_customer(request,customer_id):
     customer = Customer.objects.get(id=customer_id)
     if request.method == 'POST':

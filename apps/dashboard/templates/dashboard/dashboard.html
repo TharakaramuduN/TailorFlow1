@@ -1,0 +1,90 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+    <h1>dashboard</h1>
+    <form action="" method="POST">
+        {%csrf_token%}
+        <section>
+            <div class="dashboard-container border ">
+                <div class="buttons-section">
+                    <button onclick="filterProducts('Stitched')" class="border px-2 bg-slate-50 rounded-md" type="button">Stitched</button>
+                    <button onclick="filterProducts('Not-Stitched')" class="border px-2 bg-slate-50 rounded-md" type="button">Not Stitched</button>
+                    <button onclick="filterProducts('Delivered')" class="border px-2 bg-slate-50 rounded-md" type="button">Delivered</button>
+                </div>
+                <div class="products-container">
+                    {%for order in orders%}
+                        {%for item in order.items.all%}
+                            <div class="product-card flex">
+                                {{order.customer.first_name}}
+                                {{item.product.title}}
+
+                                <select name="status" id="select-{{item.id}}" onchange="displayCheckButton(event)">
+                                    <option {%if item.status == 'Stitched'%} selected {%endif%} value="Stitched">Stitched</option>
+                                    <option {%if item.status == 'Not-Stitched'%} selected {%endif%} value="Not-Stitched">Not Stitched</option>
+                                    <option {%if item.status == 'Delivered'%} selected {%endif%} value="Delivered">Delivered</option>
+                                </select>
+                                
+                                <div id="{{item.id}}" class="check-btn-{{item.id}} hidden px-4 hover:cursor-pointer" onclick="updateStatus(event)" >
+                                    <i id="{{item.id}}" class="fa-solid fa-check text-green-600"></i>
+                                </div>
+                                
+                            </div>
+                        {%endfor%}
+                    {%endfor%}
+                </div>
+            </div>
+        </section>
+    </form>
+
+    <script>
+        function displayCheckButton(event) {
+            const parentDiv = event.target.closest('div')
+            const checkBtn = parentDiv.querySelector('div')
+            checkBtn.classList.remove('hidden');
+        }
+
+        async function filterProducts(filterBy){
+            let response = await fetch(`/filter-products/?filter=${filterBy}`)
+            if(!response.ok){
+                throw Error('Page not found')
+            }
+            const orderItems = await response.json()
+            const productsContainer = document.querySelector('.products-container')
+            productsContainer.innerHTML = ''
+            console.log(orderItems,'helloooooo')
+            orderItems['data'].forEach((item) => {
+                const divElement = document.createElement('div')
+                divElement.classList.add('product-card','flex')
+                divElement.innerHTML = `
+                ${item.customer.first_name}
+                ${item.product.title}
+
+                <select name="status" id="select-${item.id}" onchange="displayCheckButton(event)">
+                    <option ${item.status === 'Stitched' ? 'selected' : ''} value="Stitched">Stitched</option>
+                    <option ${item.status === 'Not-Stitched' ? 'selected' : ''} value="Not-Stitched">Not Stitched</option>
+                    <option ${item.status === 'Delivered' ? 'selected' : ''} value="Delivered">Delivered</option>
+                </select>
+                
+                <div id=${item.id} class="check-btn-${item.id} hidden px-4 hover:cursor-pointer" onclick="updateStatus(event)" >
+                    <i id=${item.id} class="fa-solid fa-check text-green-600"></i>
+                </div>
+                `
+                productsContainer.appendChild(divElement)
+            })
+        }
+
+        async function updateStatus(event){
+            const itemId = event.target.id
+            const status = document.getElementById('select-' + itemId)
+            console.log(status)
+            const response = await fetch(`/update-status/${itemId}/${status.value}`)
+            if(!response.ok){
+                throw Error('Page Not found')
+            }
+
+        }
+        
+    </script>
+
+{%endblock content%}

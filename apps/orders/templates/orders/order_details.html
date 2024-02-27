@@ -1,92 +1,100 @@
-{%extends 'base.html'%}
-{%load static%}
+{% extends 'base.html' %}
+{% load static %}
 
-{%block stylesheet%}
-<link rel="stylesheet" href="{%static 'css/checkout.css'%}">
-{%endblock stylesheet%}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/order_details.css' %}">
+{% endblock stylesheet %}
 
-
-{%block content%} 
+{% block content %}
     <form action="" method="POST">
-      {%csrf_token%}
-      <section class="checkout-section">
-        <div class="checkout-container flex flex-col justify-center items-center mx-5 min-h-[90vh] ">
-          <h1 class=" text-center text-xl font-medium sm:mt-8 mt-4"> {{order.customer.first_name}}'s Order page</h1>
-            <div class="master-container my-5 max-w-2xl w-full">
-                <div class="card cart">
-                  <label class="title">Your cart</label>
-                  <div class="products flex gap-3 ">
-                    {% for item in order_items %}
-                      <div class="product-container">
-                        <div class="product flex justify-between">
+        {% csrf_token %}
+        {{ form.tailor.as_hidden }}
+        {{ form.customer.as_hidden }}
+        {{ form.items_count.as_hidden }}
+        {{formset.management_form}}
 
-                            <div class=" flex gap-3">
-                              <img class=" h-20 w-16" src="{{item.product.image.url}}" alt="">
-                              <div>
-                                  <span>{{item.product.title}}</span>
-                                  <p class=" w-fit">{{item.product.description|truncatewords:'2'}}</p>
-                                  <p class=" w-fit">No mayo</p>
-                              </div>
-                            </div>
-                            
+        <h1 class="text-center text-xl font-medium mt-16">{{ form.instance.customer.first_name }}'s checkout page</h1>
+        <section class="checkout-section">
+            <div class="checkout-container flex mx-5 justify-center">
+                <div class="master-container my-5 max-w-2xl w-full">
+                    <div class="card cart">
+                        <label class="title">Your cart</label>
+                        <div class="products flex gap-3 my-4">
+                            {% for form in formset %}
+                                <div class="product-container px-5">
+                                    <div class="product flex justify-between">
+                                        {{ form.product.as_hidden }}
+                                        {{ form.status.as_hidden }}
+                                        {{form.id.as_hidden}}
+                                        
 
-                            <div class=" flex flex-col gap-2">
-                              <label class="price small flex">₹{{item.product.price}}</label>
-                              <div class="flex items-center">Qty: {{item.quantity}}</div>
-                            </div>
+                                        <div class="flex gap-3">
+                                            <img class="h-20 w-16" src="{{ form.instance.product.image.url }}" alt="">
+                                            <div>
+                                                <span>{{ form.instance.product.title }}</span>
+                                                <p class="w-fit">{{ form.instance.product.description|truncatewords:'2' }}</p>
+                                                <p class="w-fit">No mayo</p>
+                                            </div>
+                                        </div>
 
+                                        <div class="flex flex-col">
+                                            <input class="unit-price" type="hidden" value="{{ form.instance.product.price }}">
+                                            <label class="price small flex"></label>
+                                            <div class="quantity">
+                                                <button type="button" class="flex justify-center items-center decrement-button">-</button>
+                                                <input readonly  name="{{form.prefix}}-quantity" class="w-6 quantity-input" type="number" value="{{ form.instance.quantity }}">
+                                                <button type="button" class="flex justify-center items-center increment-button">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-end text-xs text-gray-600 py-2 flex justify-between sm:my-3 my-2">
+                                      <div class="requested_date flex flex-wrap gap-2">
+                                          <label class="text-xs sm:text-sm" for="requested_date">Req. Date:</label>
+                                          <input value="{{form.requested_date.value| date:'Y-m-d'}}"  class="text-xs sm:text-sm" type="date" name="{{form.prefix}}-requested_date" id="requested_date" required>
+                                      </div>
+                                      <span onclick="addNotes(event)" class="add-btn border px-2 rounded bg-gray-200 hover:cursor-pointer">Add/Show Notes</span>
+                                    </div>
+                                    <textarea class="hidden w-full border sm:p-3 p-2 rounded-md sm:text-sm text-xs mb-3" name='form-{{ forloop.counter0 }}-notes' id='notes' rows="2" placeholder="Add notes here...">{{form.notes.value}}</textarea>
+                                    <div class="is-urgent flex justify-between items-center gap-3 my-3">
+                                      <div class="text-xs sm:text-sm">
+                                        <label for="">Status</label>
+                                        {{form.status}}
+                                      </div>
+                                      <div class="flex items-center justify-center gap-2">
+                                        <span class="sm:text-sm text-xs">Urgent:</span>
+                                        <label onclick="toggleUrgent(event)" class="toggle-switch">
+                                          <input class="urgent-checkbox" name="{{ form.prefix }}-urgent" {%if form.urgent.value%} checked {%endif%} type="checkbox">
+                                            <div class="toggle-switch-background">
+                                                <div class="toggle-switch-handle"></div>
+                                            </div>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  {% if not forloop.last %} <hr class="my-3"> {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="card checkout mb-5">
+                        <label class="title">Checkout</label>
+                        <div class="details">
+                            <span>Your cart subtotal:</span>
+                            <span class="sub-total">{{form.instance.total_price}}</span>
+                            <span>Payment Type</span>
+                            <span>{{ form.payment_type }}</span>
                         </div>
 
-                        <div class=" text-end text-xs text-gray-600 py-2 flex justify-between sm:my-3 my-2">
-                          <div class="requested_date flex flex-wrap gap-2">
-                            <label class=" text-xs sm:text-sm" for="requested_date">Requested Date: <span class=" font-medium">{{item.requested_date}}</span></label>
-                          </div>
-                          <span onclick="addNotes(event)" class="add-btn border px-2  rounded bg-gray-200 hover:cursor-pointer">Show Notes</span>
+                        <div class="checkout--footer rounded-md">
+                            <label class="final-price text-xl font-medium"><sup>₹</sup>{{form.instance.total_price}}</label>
+                            {{form.total_price.as_hidden}}
+                            <button type="submit" class="update-btn">Update Order</button>
                         </div>
-
-                        <textarea disabled class=" hidden w-full border sm:p-3 p-2 rounded-md sm:text-sm text-xs mb-3" name='form-{{forloop.counter0}}-notes' id='notes' rows="2" placeholder="Add notes here...">{{item.notes}}</textarea>
-                        
-                        <div class="is-urgent flex justify-between items-center gap-3 my-3">
-                          <p class="sm:text-sm text-xs"><span class=" font-medium">Status</span> : {{item.status}}   </p>                        
-                          <span class="flex items-center gap-2">
-                            <span class=" sm:text-sm text-xs font-medium">Urgent:</span>
-                            <label onclick="toggleUrgent(event)" class="toggle-switch">
-                              <input class=" urgent-checkbox" name='form-{{forloop.counter0}}-urgent' type="checkbox" {%if item.urgent%} checked {%endif%} disabled>
-                              <div class="toggle-switch-background">
-                                <div class="toggle-switch-handle"></div>
-                              </div>
-                            </label> 
-                          </span>
-                        </div>
-                          {%if not forloop.last%}
-                          <hr class=" my-3">
-                          {%endif%}
-                      </div>
-                    {% endfor %}
-                  </div>
+                    </div>
                 </div>
-              
-              
-                <div class="card checkout">
-
-                  <label class="title">Checkout</label>
-
-                  <div class="details">
-                    <span>Your cart subtotal:</span>
-                    <span>{{order.total_price}}</span>
-                    <span>Payment Type</span>
-                    <span>{{order.payment_type}}PAID</span>
-                  </div>
-
-                  <div class=" p-2 sm:p-3 justify-end flex bg-[#efeff3] rounded-md">
-                    <label class="final-price text-xl font-medium">Order Total : <sup>₹</sup>{{order.total_price}}</label>
-                  </div>
-
-                </div>
-
             </div>
-        </div>
-    </section>
+        </section>
     </form>
-    <script src="{%static 'js/order_details.js'%}"></script>
-{%endblock content%}
+    <script src="{% static 'js/order_details.js' %}"></script>
+{% endblock content %}
