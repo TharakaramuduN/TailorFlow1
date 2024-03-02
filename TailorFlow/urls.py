@@ -24,10 +24,10 @@ urlpatterns = [
     path('', include('apps.home.urls')),
     path('',include('apps.tailors.urls')),
     path('',include('apps.customers.urls')),
-    path('',include('apps.profile_app.urls')),
     path('',include('apps.orders.urls')),
     path('',include('apps.products.urls')),
-    path('',include('apps.dashboard.urls'))
+    path('',include('apps.dashboard.urls')),
+    path('',include('apps.transactions.urls')),
 ]
 
 if settings.DEBUG:

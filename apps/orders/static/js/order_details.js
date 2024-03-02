@@ -51,7 +51,7 @@ function addNotes(event){
     const textArea = container.querySelector('textarea')
     textArea.classList.toggle('hidden')
     if(textArea.classList.contains('hidden')){
-        addButton.innerText = 'Add/Show Notes'
+        addButton.innerText = 'Notes'
     }
     else{
         addButton.innerText = 'Hide Notes'
@@ -72,8 +72,7 @@ function confirmBeforeUnload(event) {
 
 }
 
-// Add event listener for beforeunload event
-window.addEventListener('beforeunload', confirmBeforeUnload);
+
 
 // Get the "Update Order" button
 const updateOrderButton = document.querySelector('.update-btn');
@@ -87,6 +86,8 @@ formInputs.forEach(input => {
     input.addEventListener('change', () => {
         // Show the "Update Order" button when a change is detected
         updateOrderButton.style.display = 'block';
+        // Add event listener for beforeunload event
+        window.addEventListener('beforeunload', confirmBeforeUnload);
     });
 });
 

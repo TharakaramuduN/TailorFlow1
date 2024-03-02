@@ -285,3 +285,10 @@
 .toggle-switch input[type="checkbox"]:checked + .toggle-switch-background .toggle-switch-handle {
   transform: translateX(20px);
 }
+
+#id_amount{
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+  width: 4rem;
+  padding: 0 5px ;
+}

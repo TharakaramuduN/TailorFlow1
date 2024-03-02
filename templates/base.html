@@ -34,7 +34,7 @@
         <li><a href="{%url 'home'%}">Home</a></li>
         <li><a href="{%url 'orders'%}">Orders</a></li>
         <li><a href="{%url 'customers'%}">Customers</a></li>
-        <li><a href="">Transactions</a></li>
+        <li><a href="{%url 'Transactions'%}">Transactions</a></li>
         <li><a href="{%url 'products'%}">Products</a></li>
         <li><a href="{%url 'profile'%}">Profile</a></li>
       </ul>
@@ -66,7 +66,7 @@
               </a>
             </li>
             <li>
-              <a class="flex gap-2" href="">
+              <a class="flex gap-2" href="{%url 'Transactions'%}">
                 <span class=" flex items-center justify-center">
                 <img class=" h-4 w-4 text-white" src="{%static 'icons/transaction.png'%}" alt="">
               </span> Transactions

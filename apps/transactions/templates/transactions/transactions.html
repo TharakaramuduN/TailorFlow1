@@ -1,0 +1,57 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/transactions.css' %}">
+{% endblock stylesheet %}
+
+{%block content%}
+
+        <section class=" flex flex-col justify-center items-center">
+            <div class="max-w-3xl w-full py-5">
+                <h1 class=" text-xl sm:text-3xl font-medium text-left">Transactions</h1>
+            </div>
+            <div class="transactions-container flex flex-col max-w-3xl  w-full border p-5 rounded-md">
+                <div class="searchbar-filters flex gap-3 flex-wrap w-full justify-between items-center pb-5">
+                    <div class="group">
+                      <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+                      <input placeholder="Search" type="search" class="input search-input">
+                    </div>
+                    <div class="flex gap-3">
+                        <span class=" gap-2 flex flex-wrap">
+                            <label for="gender">Gender :</label>
+                            <select onchange="filterCustomers()" name="gender" id="gender">
+                            <option value="D">--------</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            </select>
+                        </span>
+                        <span class=" gap-2 flex flex-wrap" >
+                            <label for="sortby">Sort by :</label>
+                            <select onchange="filterCustomers()" name="sortby" id="sortby">
+                            <option value="D">-------</option>
+                            <option value="first_name">First Name</option>
+                            <option value="city">City</option>
+                            <option value="created_at">Created date</option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+                <div class="transactions-list flex flex-col justify-center items-center gap-1 sm:gap-2">
+                    {%for transaction in transactions%}
+                        <div class="transaction-card flex justify-between w-full even:bg-slate-100 odd:bg-slate-50 rounded-md px-4 py-2">
+                            <div class="flex gap-2 sm:gap-4">
+                                <div class="flex justify-center items-center"><img class=" h-11 w-11 rounded-full" src="{{transaction.order.customer.profile.url}}" alt=""></div>
+                                <div class="flex gap-1 flex-col">
+                                    <p class="text-lg font-medium">{{transaction.order.customer.first_name}}</p>
+                                    <p class=" text-sm  text-gray-500">#FN0000{{transaction.order.id}}</p>
+                                </div>
+                            </div>
+                            <div class=" flex justify-center items-center font-bold"><p>{{transaction.amount}}</p></div>
+                        </div>
+                    {%endfor%}
+                </div>
+            </div>
+        </section>
+
+{%endblock content%}

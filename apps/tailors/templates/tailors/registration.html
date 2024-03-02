@@ -1,94 +1,44 @@
-{% load static%}
-<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Signup</title>
-        <!-- CSS -->
-        <link rel="stylesheet" href="{% static 'css/registration.css'%}">
-                
-        <!-- Boxicons CSS -->
-        <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-                        
-    </head>
-    <body>
-            <div class="form signup">
-                <div class="form-content">
-                    <header>Signup</header>
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="form-inputs">
-                            <div class="field input-field">
-                                {{form.first_name}}
-                                {{form.first_name.errors}}
-                            </div>
-                            <div class="field input-field">
-                                {{form.last_name}}
-                                {{form.last_name.errors}}
-                            </div>
-                            <div class="field input-field">
-                                {{form.email}}
-                                {{form.email.errors}}
-                            </div>
-                            <div class="field input-field">
-                                {{form.username}}
-                                {{form.username.errors}}
-                            </div>
-                            
-                            <div class="field input-field">
-                                <!-- <input class="password" type="password" name="password1" id="" placeholder="Password"> -->
-                                {{form.password1}}
-                                {{form.password1.errors}}
-                            </div>
-                            
-                            <div class="field input-field">
-                                <!-- <input type="password" name="password2" id="" placeholder="Confirm Password" class="password"> -->
-                                {{form.password2}}
-                                {{form.password2.errors}}
-                                <i class='bx bx-hide eye-icon'></i>
-                            </div>
-                            <div class="field input-field">
-                                {{form.phone}}
-                                {{form.phone.errors}}
+{%extends 'base.html'%}
 
-                            </div>
-                            <div class="field input-field">
-                                {{form.profile}}
-                                {{form.profile.errors}}
-
-                            </div>
-                        </div>
-
-                        <div class="field button-field">
-                            <button>Signup</button>
-                        </div>
-                    </form>
-
-                    <div class="form-link">
-                        <span>Already have an account? <a href="{% url 'login'%}" class="link login-link">Login</a></span>
-                    </div>
-                    <div class="line"></div>
-
-                    <div class="media-options">
-                        <a href="#" class="field facebook">
-                            <i class='bx bxl-facebook facebook-icon'></i>
-                            <span>Login with Facebook</span>
-                        </a>
-                    </div>
-    
-                    <div class="media-options">
-                        <a href="#" class="field google">
-                            <img src="#" alt="" class="google-img">
-                            <span>Login with Google</span>
-                        </a>
-                    </div>
+{%block content%}
+    <section>
+        <div class="flex flex-col items-center justify-center min-h-[90vh] mx-5 my-4">
+            <div class="w-full max-w-xl bg-white rounded-lg shadow-md p-6 pt-4 ">
+              <h2 class="text-2xl font-bold text-gray-900 mb-4">Sign Up</h2>
+              <form class="flex flex-col" method="post">
+                {%csrf_token%}
+                <div class=" mb-4">
+                    <input name="first_name" id="id_first_name" {%if form.first_name.value and not form.first_name.errors%} value="{{form.first_name.value}}" {%endif%} placeholder="First Name" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
+                    <span class=" text-red-400">{{form.first_name.errors}}</span>
                 </div>
-
+                <div class=" mb-4">
+                    <input name="last_name" id="id_last_name" {%if form.first_name.value and not form.last_name.errors%} value="{{form.last_name.value}}" {%endif%} placeholder="Last Name" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
+                    <span class=" text-red-400">{{form.last_name.errors}}</span>
+                </div>
+                <div class=" mb-4">
+                    <input name="username" id="id_username" {%if form.username.value and not form.username.errors%} value="{{form.username.value}}" {%endif%} placeholder="Username" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
+                    <span class=" text-red-400">{{form.username.errors}}</span>
+                </div>
+                <div class=" mb-4">
+                    <input name="email" id="id_email" {%if form.email.value and not form.email.errors%} value="{{form.email.value}}" {%endif%} placeholder="Email" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="email">
+                    <span class=" text-red-400">{{form.email.errors}}</span>
+                </div>
+                <div class=" mb-4">
+                    <input name="phone" id="id_phone" {%if form.phone.value and not form.phone.errors%} value="{{form.phone.value}}" {%endif%} placeholder="Phone" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
+                    <span class=" text-red-400">{{form.phone.errors}}</span>
+                </div>
+                <div class=" mb-4">
+                    <input name="password1" id="id_password1" {%if form.password1.value and not form.password1.errors%} value="{{form.password1.value}}" {%endif%} placeholder="Password" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="password">
+                    <span class=" text-red-400">{{form.password1.errors}}</span>
+                </div>
+                <div class=" mb-4">
+                    <input name="password2" id="id_password2" {%if form.password2.value and not form.password2.errors%} value="{{form.password2.value}}" {%endif%} placeholder="Confirm Password" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="password">
+                    <span class=" text-red-400">{{form.password2.errors}}</span>
+                </div>
+                <p class="text-gray-900 mt-4"> Already have an account? <a class="text-sm text-blue-500 -200 hover:underline mt-4" href="{%url 'login'%}">Login</a></p>
+                <button class="bg-[#212121] text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-blue-600 transition ease-in-out duration-150" type="submit">Sign Up</button>
+              </form>
             </div>
-
-        <!-- JavaScript -->
-        <script src="{%static 'js/registration.js'%}"></script>
-    </body>
-</html>
+          </div>          
+    </section>
+{%endblock content%}

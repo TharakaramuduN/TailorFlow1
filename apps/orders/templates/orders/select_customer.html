@@ -14,7 +14,7 @@
       <div class=" flex justify-between ">
         <h1 class=" text-xl sm:text-3xl font-medium">Customers</h1>
         <button class=" sm:px-4 px-2 rounded-full bg-yellow-500 text-black font-medium">
-          <a href="{%url 'new-customer'%}?next=select-products">Add Customer</a>
+          <a href="{%url 'new-customer'%}?origin=select-customer">Add Customer</a>
         </button>
       </div>
 
@@ -50,18 +50,18 @@
 
           <table class=" w-full text-center border my-5 rounded-3xl ">
             <thead class=" bg-[#2b2d42] text-white ">
-              <tr class="">
-                <td class=" rounded-l-lg">Profile</td>
+              <tr>
+                <td class="rounded-l-lg">Profile</td>
                 <td>Name</td>
-                <td>Phone</td>
+                <td class="rounded-r-lg sm:rounded-none">Phone</td>
                 <td>Email</td>  
-                <td>City</td>
+                <td class=" rounded-r-lg">City</td>
               </tr>
             </thead>
             <tbody class="">
               {% for customer in customers%}
                     <tr class=" hover:cursor-pointer tr">
-                        <td class=" flex justify-center items-center h-14"><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}"><img class=" h-10 w-10 rounded-full" src={{customer.profile.url}} alt=""></a></td>
+                        <td class=" flex justify-center items-center h-14"><a style="padding:inherit" class="flex items-center justify-center w-full h-full "  href="{%url 'select-products' customer.id%}"><img class=" h-8 w-8 sm:h-10 sm:w-10 rounded-full" src={{customer.profile.url}} alt=""></a></td>
                         <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.first_name}}</a></td>
                         <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.phone}}</a></td>
                         <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.email}}</a></td>

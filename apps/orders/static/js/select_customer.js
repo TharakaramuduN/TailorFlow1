@@ -15,7 +15,7 @@ async function filterCustomers(){
     data.customers.forEach(customer => {
         const row = document.createElement('tr')
         row.innerHTML = `
-        <td class=" flex justify-center items-center h-14"><a style="padding:inherit" class="block w-full h-full"  href="/select-products/${customer.id}"><img class=" h-10 w-10 rounded-full" src=${customer.profile} alt=""></a></td>
+        <td class=" flex justify-center items-center h-14"><a style="padding:inherit" class="flex items-center justify-center w-full h-full "  href="/select-products/${customer.id}"><img class=" h-8 w-8 sm:h-10 sm:w-10 rounded-full" src=${customer.profile} alt=""></a></td>
         <td><a style="padding:inherit" class="block w-full h-full"  href="/select-products/${customer.id}">${customer.first_name}</a></td>
         <td><a style="padding:inherit" class="block w-full h-full"  href="/select-products/${customer.id}">${customer.phone}</a></td>
         <td><a style="padding:inherit" class="block w-full h-full"  href="/select-products/${customer.id}">${customer.email}</a></td>

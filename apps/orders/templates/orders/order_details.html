@@ -13,7 +13,7 @@
         {{ form.items_count.as_hidden }}
         {{formset.management_form}}
 
-        <h1 class="text-center text-xl font-medium mt-16">{{ form.instance.customer.first_name }}'s checkout page</h1>
+        <h1 class="text-center text-xl font-medium mt-16">{{ form.instance.customer.first_name }}'s Order details page</h1>
         <section class="checkout-section">
             <div class="checkout-container flex mx-5 justify-center">
                 <div class="master-container my-5 max-w-2xl w-full">
@@ -31,7 +31,7 @@
                                         <div class="flex gap-3">
                                             <img class="h-20 w-16" src="{{ form.instance.product.image.url }}" alt="">
                                             <div>
-                                                <span>{{ form.instance.product.title }}</span>
+                                                <span>{{ form.instance.product.title | truncatewords:'2' }}</span>
                                                 <p class="w-fit">{{ form.instance.product.description|truncatewords:'2' }}</p>
                                                 <p class="w-fit">No mayo</p>
                                             </div>
@@ -53,7 +53,7 @@
                                           <label class="text-xs sm:text-sm" for="requested_date">Req. Date:</label>
                                           <input value="{{form.requested_date.value| date:'Y-m-d'}}"  class="text-xs sm:text-sm" type="date" name="{{form.prefix}}-requested_date" id="requested_date" required>
                                       </div>
-                                      <span onclick="addNotes(event)" class="add-btn border px-2 rounded bg-gray-200 hover:cursor-pointer">Add/Show Notes</span>
+                                      <span onclick="addNotes(event)" class="add-btn border px-2 rounded bg-gray-200 hover:cursor-pointer"> Notes</span>
                                     </div>
                                     <textarea class="hidden w-full border sm:p-3 p-2 rounded-md sm:text-sm text-xs mb-3" name='form-{{ forloop.counter0 }}-notes' id='notes' rows="2" placeholder="Add notes here...">{{form.notes.value}}</textarea>
                                     <div class="is-urgent flex justify-between items-center gap-3 my-3">
@@ -80,10 +80,20 @@
                     <div class="card checkout mb-5">
                         <label class="title">Checkout</label>
                         <div class="details">
-                            <span>Your cart subtotal:</span>
-                            <span class="sub-total">{{form.instance.total_price}}</span>
                             <span>Payment Type</span>
-                            <span>{{ form.payment_type }}</span>
+                            <span>{{ form.instance.payment_type }}PAID{{form.payment_type.as_hidden}}</span>
+                            <span>Your Order subtotal:</span>
+                            <span class="sub-total">{{form.instance.total_price}}</span>
+                            {%if form.instance.payment_type == 'POST'%}
+                                <span>Amount Paid</span>
+                                <span>{{ amount_paid }}</span>
+                                <!-- <span>Due</span>
+                                <span>{{transaction_form.amount}}</span> -->
+                                {%if amount_paid < form.instance.total_price%}
+                                    <span>Add Amount</span>
+                                    <span><input type="number" min="1" max="{{max_input_value}}" name="amount" id="id_amount"></span>
+                                {%endif%}
+                            {%endif%}
                         </div>
 
                         <div class="checkout--footer rounded-md">

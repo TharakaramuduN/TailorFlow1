@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Product
 from .forms import ProductForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -21,3 +22,18 @@ def create_product(request):
 def products(request):
     products = Product.objects.filter(tailor=request.user)
     return render(request,'products/products.html',context={'products':products})
+
+@login_required
+def filter_products(request):
+    search_query = request.GET.get('search','')
+    gender = request.GET.get('gender','')
+    category = request.GET.get('category','')
+    products = Product.objects.filter(tailor=request.user)
+    if search_query:
+        products = products.filter(title__icontains=search_query)
+    if gender != 'D':
+        products = products.filter(gender=gender)
+    if category != 'D':
+        products = products.filter(category__icontains=category)
+    products = list(products.values())
+    return JsonResponse({'products':products})

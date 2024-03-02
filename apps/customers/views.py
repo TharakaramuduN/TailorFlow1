@@ -4,13 +4,12 @@ from django.db import IntegrityError
 from .models import Customer, Measurements
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from django.urls import reverse
 from django.db.models import Q
 from django.conf import settings
 
 @login_required
 def new_customer(request):
-    next_url = request.GET.get('next','')
+    origin = request.GET.get('origin','')
     form = CustomerForm() 
 
     if request.method == "POST":
@@ -28,9 +27,8 @@ def new_customer(request):
                     customer = form.save(commit=False)
                     customer.tailor = request.user
                     customer.save()
-                    redirect_url = reverse('add-measurements',kwargs={'customer_id':customer.id}) + f'?next={next_url}'
-                    if next_url:
-                        return redirect(redirect_url)
+                    if origin:
+                        return redirect(f'/add-measurements/{customer.id}/?next=select-products')
                     return redirect(add_measurements,customer_id=customer.id)
                 except IntegrityError as e:
                     # Handle any potential IntegrityError that may occur during the save
@@ -128,7 +126,6 @@ def filter_customers(request):
         queryset = queryset.order_by(sortby)
 
     customers_data = list(queryset.values())
-    print(customers_data)
     for customer in customers_data:
         customer['profile'] = settings.MEDIA_URL + str(customer['profile'])
     return JsonResponse({'customers':customers_data})

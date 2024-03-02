@@ -1,3 +1,4 @@
+
 {%extends 'base.html'%}
 {%load static%}
 {%block title%} New Customer {%endblock title%}
@@ -5,56 +6,19 @@
     <link rel="stylesheet" href="{% static 'css/new_customer.css'%}">
 {%endblock stylesheet%}
 
-{%block content%}
 
-    <div class="form-container bg-black text-white">
-        <form action="" class="  md:max-w-3xl mx-auto sm:h-[90vh]" method="post" enctype="multipart/form-data">
-            {% csrf_token%}
-            <h1 class=" text-center py-10 text-2xl">Add Customer details</h1>
-            <div class="form-content flex flex-col h-[80%] w-full justify-center space-y-4">
-                <div class=" flex sm:flex-row flex-col sm:gap-[10%] gap-5 items-center justify-center">
-                    <div class="first-name flex flex-col gap-2 w-[70%] sm:w-[40%] ">
-                        <label class=" text-lg text-yellow-400" for="id_first_name">{{form.first_name.label}}</label>
-                        {{form.first_name}}
-                    </div>
-                    <div class="last-name flex flex-col gap-2 w-[70%] sm:w-[40%]">
-                        <label class=" text-lg text-yellow-400" for="id_last_name">{{form.last_name.label}}</label>
-                        {{form.last_name}}
-                    </div>
-                </div>
-                <div class="email flex flex-col gap-2 w-[70%] mx-[15%] sm:w-[90%] sm:mx-[5%]">
-                    <label class=" text-lg text-yellow-400" for="">{{form.email.label}}</label>
-                    {{form.email}}
-                    <div class="error text-red-500">{{form.email.errors}}</div>
-                </div>
-                <div class=" flex sm:flex-row flex-col sm:gap-[10%] gap-5 items-center justify-center">
-                    <div class="city flex flex-col gap-2 w-[70%] sm:w-[40%] ">
-                        <label class=" text-lg text-yellow-400" for="city">{{form.city.label}}</label>
-                        {{form.city}}
-                    </div>
-                    <div class="phone flex flex-col gap-2 w-[70%] sm:w-[40%]">
-                        <label class=" text-lg text-yellow-400" for="id_phone">{{form.phone.label}}</label>
-                        {{form.phone}}
-                        <div class="error text-red-500">{{form.phone.errors}}</div>
-                    </div>
-                </div>
-                <div class=" flex sm:flex-row flex-col sm:gap-[10%] gap-5 items-center justify-center">
-                    <div class="profile flex flex-col gap-2 w-[70%] sm:w-[40%] ">
-                        <label class="lg text-yellow-400" for="">{{form.profile.label}}</label>
-                        {{form.profile}}
-                        {{form.profile.errors}}
-                    </div>
-                    <div class="gender flex flex-col gap-2 w-[70%] sm:w-[40%]">
-                        <label class="lg text-yellow-400" for="">{{form.gender.label}}</label>
-                        {{form.gender}}
-                        {{form.gender.errors}}
-                    </div>
-                </div>
-                
-                <div class="submit-btn flex justify-center py-10">
-                    <button type="submit" class=" border border-black bg-yellow-500 text-black px-5 mt-5 rounded py-2">Add Customer</button>
+{%block content%}
+    <section>
+        <form class="flex flex-col" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            <div class="flex flex-col items-center justify-center min-h-[90vh] mx-5 my-4">
+                <div class="w-full max-w-xl bg-white rounded-lg shadow-md p-6 pt-4 ">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Add Customer</h2>
+                    {%include 'customers/customer_form.html'%}
+                    <button class="bg-[#212121] text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-blue-600 transition ease-in-out duration-150 w-full" type="submit">Add Customer</button>
                 </div>
             </div>
-        </form>
-    </div>
+        </form>       
+    </section>
+
 {%endblock content%}

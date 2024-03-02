@@ -27,7 +27,7 @@
                                         <div class="flex gap-3">
                                             <img class="h-20 w-16" src="{{ product.image.url }}" alt="">
                                             <div>
-                                                <span>{{ product.title }}</span>
+                                                <span>{{ product.title | truncatewords:'3' }}</span>
                                                 {{ formset.product.as_hidden }}
                                                 <p class="w-fit">{{ product.description|truncatewords:'2' }}</p>
                                                 <p class="w-fit">No mayo</p>
@@ -52,16 +52,16 @@
                                     </div>
                                     <textarea class="hidden w-full border sm:p-3 p-2 rounded-md sm:text-sm text-xs mb-3" name='form-{{ forloop.counter0 }}-notes' id='notes' rows="2" placeholder="Add notes here..."></textarea>
                                     <div class="is-urgent flex justify-between items-center gap-3 my-3">
-                                        <div>
-                                            <label for="">Status</label>
-                                            <select name="form-{{forloop.counter0}}-status" id="id_status">
+                                        <div class="text-xs sm:text-sm">
+                                            <label for="id_status">Status</label>
+                                            <select class="" name="form-{{forloop.counter0}}-status" id="id_status">
                                                 <option value="Not-Stitched">Not-Stitched</option>
                                                 <option value="Stitching">Stitching</option>
                                                 <option value="Stitched">Stitched</option>
                                                 <option value="Delivered">Delivered</option>
                                             </select>
                                         </div>
-                                        <div>
+                                        <div class="flex items-center justify-center gap-2">
                                             <span class="sm:text-sm text-xs">Urgent:</span>
                                             <label onclick="toggleUrgent(event)" class="toggle-switch">
                                                 <input class="urgent-checkbox" name='form-{{ forloop.counter0 }}-urgent' type="checkbox">
@@ -83,6 +83,8 @@
                             <span class="sub-total"></span>
                             <span>Payment Type</span>
                             <span>{{ order_form.payment_type }}</span>
+                            <span>Add Advance</span>
+                            <span>{{transaction_form.amount}}</span>
                         </div>
                         <div class="checkout--footer">
                             <label class="final-price text-xl font-medium"><sup>₹</sup>57.99</label>

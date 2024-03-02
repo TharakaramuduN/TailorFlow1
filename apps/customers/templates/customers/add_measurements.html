@@ -12,8 +12,17 @@
         {%include 'customers/measurements_form.html' with measurements_content='measurements_content'%}
         
         <div class=" flex justify-center items-center pb-7 ">
-            <button type="submit" class=" bg-yellow-400 px-3 rounded-md hover:bg-yellow-300">Submit</button>
+            <button type="submit" class="submit-btn bg-yellow-400 px-3 rounded-md hover:bg-yellow-300">Submit</button>
         </div>
     </section>
+    <script>
+        function confirmBeforeUnload(event) {
+            event.returnValue = 'are you sure?';
+        }
+        window.addEventListener('beforeunload',confirmBeforeUnload)
+        const submitBtn = document.querySelector('.submit-btn')
+        console.log(submitBtn)
+        submitBtn.addEventListener('click',()=>window.removeEventListener('beforeunload',confirmBeforeUnload))
+    </script>
 </form>
 {%endblock content%}

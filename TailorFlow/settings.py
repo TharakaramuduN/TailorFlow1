@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-xp8xt_6w%5jv_r_wno3=lyfi&qtf@1phik74gg_jbjsjfwp^fn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.74.169']
+ALLOWED_HOSTS = ['192.168.66.169']
 
 
 # Application definition
@@ -44,7 +45,6 @@ INSTALLED_APPS = [
     'apps.transactions.apps.TransactionsConfig',
     'apps.tailors.apps.TailorsConfig',
     'apps.products.apps.ProductsConfig',
-    # 'apps.profile_app.apps.ProfileAppConfig',
     'apps.dashboard.apps.DashboardConfig',
 ]
 
@@ -143,9 +143,9 @@ AUTH_USER_MODEL = 'tailors.TailorUser'
 
 LOGIN_URL = '/login/'
 
-# DATE_INPUT_FORMATS = [
-#     '%d-%m-%Y',     # '25-10-2022'
-#     '%d/%m/%Y',     # '25/10/2022'
-#     '%Y-%m-%d',     # '2022-10-25'
-#     '%Y/%m/%d',     # '2022/10/25'
-# ]
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER= config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')

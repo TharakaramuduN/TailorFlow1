@@ -4,6 +4,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 # from django.urls.conf import 
 from .models import TailorUser
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 
@@ -18,9 +20,23 @@ def register(request):
         form = CreateTailorForm(request.POST,request.FILES)
         if form.is_valid():
             tailor = form.save()
+            subject = 'Registration Successful for TailorFlow'
+            message = '''Thank you for registering with us!
+Warm Regards,
+TailorFlow.'''
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [tailor.email],
+                fail_silently=False,
+
+            )
             user = authenticate(request,username=username,password=password)
             login(request,user)
             return redirect('/')
+        else:
+            print(form.errors)
     return render(request,'tailors/registration.html',context={'form':form})
 
 
