@@ -41,5 +41,6 @@ async function filterOrders(page_num){
         ${page_obj.has_next ? `
         <span>
             <button class=' border px-3 bg-yellow-500 rounded-full' type='button' onclick=filterOrders(${ page_obj.next_page_number })><i class="fa-solid fa-angle-right"></i></button>
-        </span>` : '<div></div>'}`
+        </span>` : '<div></div>'}
+    </span>`
 }

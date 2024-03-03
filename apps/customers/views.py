@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.conf import settings
+from django.core.paginator import Paginator
 
 @login_required
 def new_customer(request):
@@ -59,7 +60,10 @@ def edit_customer(request,customer_id):
 def customers(request):
     tailor = request.user
     customers = Customer.objects.filter(tailor=tailor)
-    return render(request,'customers/customers.html',context={'customers':customers})
+    pagination = Paginator(customers,7)
+    page_num = request.GET.get('page')
+    page_obj = pagination.get_page(page_num)
+    return render(request,'customers/customers.html',context={'page_obj':page_obj})
 
 @login_required
 def customer_details(request,customer_id):
@@ -108,10 +112,10 @@ def filter_customers(request):
     gender = request.GET.get('gender','')
     sortby = request.GET.get('sortby','')
 
-    queryset = Customer.objects.filter(tailor=request.user)
+    customers = Customer.objects.filter(tailor=request.user)
 
     if search:
-        queryset = queryset.filter(
+        customers = customers.filter(
             Q(first_name__icontains=search) |
             Q(last_name__icontains=search) |
             Q(email__icontains=search) |
@@ -120,12 +124,24 @@ def filter_customers(request):
         ).distinct()
     
     if gender:
-        queryset = queryset.filter(gender = gender)
+        customers = customers.filter(gender = gender)
     
     if sortby:
-        queryset = queryset.order_by(sortby)
+        customers = customers.order_by(sortby)
+    
+    pagination = Paginator(customers,7)
+    page_num = request.GET.get('page')
+    page_obj = pagination.get_page(page_num)
+    page_data = {
+        'number':page_obj.number,
+        'num_pages':page_obj.paginator.num_pages,
+        'has_next':page_obj.has_next(),
+        'has_previous':page_obj.has_previous(),
+        'previous_page_number':page_obj.previous_page_number() if page_obj.has_previous() else None,
+        'next_page_number':page_obj.next_page_number() if page_obj.has_next() else None,
 
-    customers_data = list(queryset.values())
+    }
+    customers_data = list(page_obj.object_list.values())
     for customer in customers_data:
         customer['profile'] = settings.MEDIA_URL + str(customer['profile'])
-    return JsonResponse({'customers':customers_data})
+    return JsonResponse({'customers':customers_data,'page_obj':page_data})

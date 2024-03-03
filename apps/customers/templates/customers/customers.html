@@ -7,7 +7,7 @@
 
 {%block content%}
   <section class="customer-section"> 
-    <div class="customer-content max-w-6xl mx-auto sm:p-8 p-4">
+    <div class="customer-content max-w-6xl mx-auto sm:p-8 p-4 min-h-[90vh]">
 
       <div class=" flex justify-between ">
         <h1 class=" text-xl sm:text-3xl font-medium">Customers</h1>
@@ -16,7 +16,7 @@
         </button>
       </div>
 
-      <div class="border rounded-lg h-fit sm:p-4 p-2 my-5 gap-3">
+      <div class="border rounded-lg h-fit sm:p-4 p-2 mt-4 gap-3">
           <div class="searchbar-filters flex gap-3 flex-wrap w-full justify-between items-center">
             <div class="group">
               <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
@@ -39,12 +39,12 @@
                   <option value="city">City</option>
                   <option value="created_at">Created date</option>
                 </select>
-             </span>
+             </span> 
             </div>
           </div>
 
 
-          <table class=" w-full  border my-5 rounded-3xl text-sm sm:text-base text-center">
+          <table class=" w-full  border mt-4 rounded-3xl text-sm sm:text-base text-center">
             <thead class=" bg-[#2b2d42] text-white ">
               <tr class="">
                 <td class=" rounded-l-lg">Profile</td>
@@ -56,7 +56,7 @@
               </tr>
             </thead>
             <tbody class="">
-              {% for customer in customers%}
+              {% for customer in page_obj%}
               <tr class="">
                 <td class=" flex justify-center items-center h-14"><img class=" h-10 w-10 rounded-full" src={{customer.profile.url}} alt=""></td>
                 <td>{{customer.first_name}}</td>
@@ -74,7 +74,32 @@
               {%endfor%}
             </tbody>
           </table>
-      </div>
+        </div>
+        <div class="pagination flex items-center justify-center mx-auto max-w-4xl pt-4 sm:px-8 px-4">
+          <span class="step-links flex  w-full justify-between">
+              {% if page_obj.has_previous %}
+                  <button type="button" class=" border px-3 bg-yellow-500 rounded-full" ><i class="fa-solid fa-angle-left"></i></button>
+              {%else%}
+                  <div class="hidden-obj">
+
+                  </div>
+              {% endif %}
+      
+              <span class="current">
+                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+              </span>
+      
+              {% if page_obj.has_next %}
+                <span>
+                  <button type="button" onclick="filterCustomers('{{page_obj.next_page_number}}')" class=" border px-3 bg-yellow-500 rounded-full"><i class="fa-solid fa-angle-right"></i></button>
+                </span>
+              {%else%}
+                <div class="hidden-obj">
+
+                </div>
+              {% endif %}
+          </span>
+        </div>
     </div>
   </section>
   <script src="{%static 'js/customers.js'%}"></script>
