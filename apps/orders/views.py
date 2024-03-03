@@ -8,12 +8,20 @@ from .models import Order, OrderItem
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django import forms
+from django.db.models import Q
+from django.http import JsonResponse
+from django.core.paginator import Paginator
+from django.core import serializers
+import json
 # Create your views here.
 
 @login_required
 def orders(request):
     orders = Order.objects.filter(tailor=request.user)
-    return render(request,'orders/orders.html',{'orders':orders})
+    paginator = Paginator(orders, 5)  # Show 5 orders per page.
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request,'orders/orders.html',{'page_obj':page_obj})
 
 @login_required
 def select_customer(request):
@@ -34,19 +42,22 @@ def checkout(request,customer_id):
         checkout_origin = request.POST.get('checkout','')
         OrderItemFormSet = modelformset_factory(OrderItem,fields='__all__',extra=len(selected_products))
         transaction_form = TransactionForm()
-        if checkout_origin == 'true':
+        if checkout_origin == 'true': 
+            amount = int(request.POST.get('amount'))
             order_form = OrderForm(request.POST)
             formset = OrderItemFormSet(request.POST)
             transaction_form = TransactionForm(request.POST)
+            
             if order_form.is_valid() and formset.is_valid() and transaction_form.is_valid():
                 order = order_form.save()
                 instances = formset.save(commit=False)
                 for instance in instances:
                     instance.order = order
                     instance.save()
-                transaction = transaction_form.save(commit=False)
-                transaction.order = order
-                transaction.save()
+                if amount > 0:
+                    transaction = transaction_form.save(commit=False)
+                    transaction.order = order
+                    transaction.save()
                 return redirect('/orders')
             else:
                 print(formset.errors)
@@ -80,16 +91,18 @@ def order_details(request,order_id):
         form = OrderForm(request.POST, instance=order)
         formset = OrderItemFormSet(request.POST, queryset=order_items)
         transaction_form = TransactionForm(request.POST)
+        amount = int(request.POST.get('amount'))
         if form.is_valid() and formset.is_valid() and transaction_form.is_valid():
             order = form.save()
             instances = formset.save(commit=False)
             for instance in instances:
                 instance.order = order
                 instance.save()
-            transaction = transaction_form.save(commit=False)
-            transaction.tailor = request.user
-            transaction.order = order
-            transaction.save()
+            if amount > 0:
+                transaction = transaction_form.save(commit=False)
+                transaction.tailor = request.user
+                transaction.order = order
+                transaction.save()
             return redirect('/orders')
         else:
             print(transaction_form.errors,form.errors,formset.errors)
@@ -103,3 +116,30 @@ def order_details(request,order_id):
         'amount_paid':amount_paid,
         'max_input_value':max_input_value,
         })
+
+@login_required
+def filter_orders(request):
+    print(request.path,request.GET)
+    search_query = request.GET.get('search','')
+    orders = Order.objects.filter(tailor=request.user)
+    if search_query:
+        orders = orders.filter(
+            Q(customer__first_name__icontains=search_query) |
+            Q(id__icontains=search_query)
+        )
+    paginator = Paginator(orders,5)
+    page_num = request.GET.get('page')
+    print(page_num)
+    page_obj = paginator.get_page(page_num)
+    orders_data = list(page_obj.object_list.values('id','total_price', 'items_count', 'customer__first_name'))
+    print(orders_data)
+    page_data = {
+        'number':page_obj.number,
+        'num_pages':page_obj.paginator.num_pages,
+        'has_next':page_obj.has_next(),
+        'has_previous':page_obj.has_previous(),
+        'previous_page_number':page_obj.previous_page_number() if page_obj.has_previous() else None,
+        'next_page_number':page_obj.next_page_number() if page_obj.has_next() else None,
+
+    }
+    return JsonResponse({'page_obj':page_data,'orders':orders_data})

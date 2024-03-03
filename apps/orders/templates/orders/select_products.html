@@ -49,7 +49,7 @@
                 </div>
                 <div class="products-container sm:gap-6 gap-3 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-auto w-full py-5">
                     {% for product in products %}
-                    <div class="product-card rounded shadow-lg h-96 justify-center relative hover:cursor-pointer">
+                    <div onclick="toggleSelected(event)" class="product-card rounded shadow-lg h-96 justify-center relative hover:cursor-pointer z-20">
                         <div class="product-img h-[60%] sm:h-[70%]">
                             <img loading="lazy" class="w-full h-full sm:p-5 p-3 rounded-3xl" src="{{ product.image.url }}" alt="{{ product.title }}">
                         </div>
@@ -58,9 +58,9 @@
                             <p class="text-gray-700 text-sm">{{ product.description | truncatewords:'2' }}</p>
                             <p class="text-gray-800 text-base font-semibold mt-2">₹{{ product.price }}</p>
                         </div>
-                        <input type="checkbox" class=" absolute left-0 top-0 h-full w-full hidden">
-                        <div class=" absolute h-full w-full left-0 top-0 flex items-center justify-center bg-black opacity-25">
-                            <h1 class=" text-4xl text-white"><i class="fa-solid fa-check"></i></h1>
+                        <input name="selected_products" type="checkbox" class=" absolute top-0 left-0 h-full w-full z-10 opacity-0" value="{{product.id}}">
+                        <div class="selected-layer hidden rounded-md absolute h-full w-full left-0 top-0 items-end justify-end  bg-black opacity-50">
+                            <h1 class=" text-6xl text-white font-extrabold pr-3 pb-3"><i class="fa-solid fa-check"></i></h1>
                         </div>
 
                     </div>
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="flex justify-center">
-                <button class="fixed bottom-[5%] px-3 py-1 bg-[#24262b] text-white rounded-md">Checkout</button>
+                <button class="fixed bottom-[5%] px-3 py-1 bg-[#24262b] text-white rounded-md z-30">Checkout</button>
             </div>
         </section>
     </form>

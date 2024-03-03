@@ -17,6 +17,9 @@ class Order(models.Model):
     total_price = models.FloatField(blank=True,null=True)
     payment_type = models.CharField(max_length=50,choices=payment_choices,null=True)
     items_count = models.IntegerField(blank=True,null=True)
+    
+    class Meta:
+        ordering = ['-id']
 
 
 

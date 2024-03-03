@@ -15,6 +15,7 @@ products.forEach(product => {
     subTotalElement.innerText = '₹' + subTotal
     finalPrice.innerHTML = `<p><sup>₹</sup>${subTotal}</p>`
     finalPriceElement.value = subTotal
+    const amountInput = document.querySelector('#id_amount')
 
 
     decrementButton.addEventListener('click', () => {
@@ -26,6 +27,7 @@ products.forEach(product => {
             subTotalElement.innerText = '₹' + subTotal
             finalPrice.innerHTML = `<p><sup>₹</sup>${subTotal}</p>`
             finalPriceElement.value = subTotal
+            amountInput.value = subTotal
         }
     });
 
@@ -37,6 +39,7 @@ products.forEach(product => {
         subTotalElement.innerText = '₹' + subTotal
         finalPrice.innerHTML = `<p><sup>₹</sup>${subTotal}</p>`
         finalPriceElement.value = subTotal
+        amountInput.value = subTotal
     });
 });
 
@@ -58,4 +61,24 @@ function toggleUrgent(event){
     const container = event.target.closest('.product-container')
     const checkBox = container.querySelector('.urgent-checkbox')
     checkBox.checked = !checkBox.checked
+}
+
+const paymentType = document.getElementById('id_payment_type')
+paymentType.addEventListener('change',toggleAdvanceInput)
+
+function toggleAdvanceInput(){
+    const paymentTypeValue = paymentType.value
+    console.log(paymentTypeValue)
+    const advanceInputElements = document.querySelectorAll('.advance')
+    if(paymentTypeValue==='POST'){
+        advanceInputElements.forEach(element=>{
+            element.classList.remove('hidden')
+        })
+    }
+    else{
+        advanceInputElements.forEach(element=>{
+            element.classList.add('hidden')
+            console.log(subTotal)
+        })
+    }
 }

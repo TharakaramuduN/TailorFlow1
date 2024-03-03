@@ -8,3 +8,6 @@ class Transaction(models.Model):
     amount = models.FloatField(blank=True,null=True,default=0)
     date_time = models.DateTimeField(blank=True,null=True,auto_now_add=True)
     order = models.ForeignKey(Order,on_delete=models.CASCADE,blank=True,null=True)
+
+    class Meta:
+        ordering = ['-id']

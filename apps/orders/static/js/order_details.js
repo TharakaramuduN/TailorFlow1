@@ -26,7 +26,8 @@ products.forEach(product => {
             subTotalElement.innerText = '₹' + subTotal
             finalPrice.innerHTML = `<p><sup>₹</sup>${subTotal}</p>`
             finalPriceElement.value = parseFloat(subTotal)
-            updateOrderButton.style.display = 'block'
+            updateOrderButton.style.display = 'block';
+            window.addEventListener('beforeunload', confirmBeforeUnload);
     
         }
     });
@@ -39,7 +40,8 @@ products.forEach(product => {
         subTotalElement.innerText = '₹' + subTotal
         finalPrice.innerHTML = `<p><sup>₹</sup>${subTotal}</p>`
         finalPriceElement.value = parseFloat(subTotal)
-        updateOrderButton.style.display = 'block'
+        updateOrderButton.style.display = 'block';
+        window.addEventListener('beforeunload', confirmBeforeUnload);
 
     });
 });
