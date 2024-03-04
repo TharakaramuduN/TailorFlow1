@@ -12,15 +12,14 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.core import serializers
-import json
+from datetime import datetime
 # Create your views here.
 
 @login_required
 def orders(request):
     orders = Order.objects.filter(tailor=request.user)
-    paginator = Paginator(orders, 5)  # Show 5 orders per page.
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    paginator = Paginator(orders, 5)
+    page_obj = paginator.get_page(1)
     return render(request,'orders/orders.html',{'page_obj':page_obj})
 
 @login_required
@@ -36,6 +35,7 @@ def select_products(request,customer_id):
 @login_required
 def checkout(request,customer_id):
     customer = Customer.objects.get(id=customer_id)
+    print(customer_id)
     if request.method == 'POST':
         selected_product_ids = request.POST.getlist('selected_products')
         selected_products = Product.objects.filter(tailor=request.user,id__in=selected_product_ids)
@@ -47,9 +47,11 @@ def checkout(request,customer_id):
             order_form = OrderForm(request.POST)
             formset = OrderItemFormSet(request.POST)
             transaction_form = TransactionForm(request.POST)
+            # print(order_form)
             
             if order_form.is_valid() and formset.is_valid() and transaction_form.is_valid():
-                order = order_form.save()
+                order = order_form.save(commit=False)
+                order.save()
                 instances = formset.save(commit=False)
                 for instance in instances:
                     instance.order = order
@@ -60,9 +62,10 @@ def checkout(request,customer_id):
                     transaction.save()
                 return redirect('/orders')
             else:
-                print(formset.errors)
+                print(order_form.errors)
         else:
-            order_form = OrderForm(initial={'tailor':request.user,'customer':customer,'items_count':len(selected_product_ids)})
+            order_id = generate_order_id(customer_id)
+            order_form = OrderForm(initial={'tailor':request.user,'customer':customer,'items_count':len(selected_product_ids),'id':order_id})
             formset = OrderItemFormSet(queryset=OrderItem.objects.none(),initial=[{'product':product} for product in selected_products])
             return render(request,'orders/checkout.html',{
                 'selected_products':selected_products,
@@ -71,6 +74,13 @@ def checkout(request,customer_id):
                 'order_form':order_form,
                 'transaction_form':transaction_form,
             })
+    else:
+        print("it's a get method")
+        
+def generate_order_id(customer_id):
+    timestamp = datetime.now().strftime("%y%m%d%H%M%S")
+    order_id = f"{timestamp}{customer_id}"
+    return order_id
 
 @login_required      
 def order_details(request,order_id):
@@ -119,7 +129,6 @@ def order_details(request,order_id):
 
 @login_required
 def filter_orders(request):
-    print(request.path,request.GET)
     search_query = request.GET.get('search','')
     orders = Order.objects.filter(tailor=request.user)
     if search_query:

@@ -8,6 +8,7 @@
 {% block content %}
     <form action="" method="POST">
         {% csrf_token %}
+        {{form.id.as_hidden}}
         {{ form.tailor.as_hidden }}
         {{ form.customer.as_hidden }}
         {{ form.items_count.as_hidden }}
@@ -93,6 +94,8 @@
                                     <span>Add Amount</span>
                                     <span><input type="number" min="1" max="{{max_input_value}}" name="amount" id="id_amount" value="0"></span>
                                 {%endif%}
+                            {%else%}
+                                <input type="hidden" min="1" max="{{max_input_value}}" name="amount" id="id_amount" value="0">
                             {%endif%}
                         </div>
 

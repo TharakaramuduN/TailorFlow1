@@ -17,7 +17,7 @@ async function filterOrders(page_num){
         <div class="order-card space-y-2">
             <div class=" flex justify-between">
                 <p class=" text-lg sm:text-xl font-medium">${order.customer__first_name}</p>
-                <p>Order Id: ${order.id}</p>
+                <p class="text-xs">Id: <span class="text-lg font-medium text-gray-400"> ${order.id}</span></p>
             </div>
             <div class=" flex justify-between">
                 <p>Items: ${order.items_count}</p>

@@ -67,18 +67,19 @@ const paymentType = document.getElementById('id_payment_type')
 paymentType.addEventListener('change',toggleAdvanceInput)
 
 function toggleAdvanceInput(){
+    const amountInput = document.querySelector('#id_amount')
     const paymentTypeValue = paymentType.value
-    console.log(paymentTypeValue)
     const advanceInputElements = document.querySelectorAll('.advance')
     if(paymentTypeValue==='POST'){
         advanceInputElements.forEach(element=>{
             element.classList.remove('hidden')
+            amountInput.value = 0
         })
     }
     else{
         advanceInputElements.forEach(element=>{
             element.classList.add('hidden')
-            console.log(subTotal)
         })
+        amountInput.value = subTotal
     }
 }

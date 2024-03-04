@@ -4,22 +4,23 @@ from apps.tailors.models import TailorUser
 from apps.products.models import Product
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from datetime import date
+import datetime
 # Create your models here.
 class Order(models.Model):
     payment_choices = [
         ('PRE','PREPAID'),
         ('POST','POSTPAID')
     ]
+    id = models.CharField(max_length=100,primary_key=True,unique=True,blank=True)
     tailor = models.ForeignKey(TailorUser,on_delete=models.CASCADE,null=True,blank=True)
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE,null=True,blank=True)
-    order_date = models.DateField(auto_now_add=True,blank=True,null=True)
+    order_date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     total_price = models.FloatField(blank=True,null=True)
     payment_type = models.CharField(max_length=50,choices=payment_choices,null=True)
     items_count = models.IntegerField(blank=True,null=True)
     
     class Meta:
-        ordering = ['-id']
+        ordering = ['-order_date_time']
 
 
 
@@ -39,17 +40,3 @@ class OrderItem(models.Model):
     urgent = models.BooleanField(default=False,blank=True)
     stitched_on = models.DateField(blank=True,null=True)
     delivered_on = models.DateField(blank=True,null=True)
-
-
-# @receiver(pre_save,sender=OrderItem)
-# def update_order_item(sender,instance,*args, **kwargs):
-#     old_instance = sender.objects.get(id=instance.id)
-#     if old_instance.status != instance.status:
-#         if old_instance.status == 'Not Stitched' and instance.status == 'Stitched':
-#             instance.stitched_date = date.today()
-#         elif old_instance.status == 'Stitched' and instance.status == 'Not Stitched':
-#             instance.stitched_date = None
-    
-#     if old_instance.is_delivered != instance.is_delivered:
-#         if instance.is_delivered == 'Delivered':
-#             instance.status == 'Stitched'
