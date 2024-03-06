@@ -59,10 +59,18 @@ function toggleSelected(event){
     }
 }
 
-
-function filterProducts1(){
-    let response = fetch("https://fakestoreapi.com/products/category/men's clothing")
-    .then(res=>res.json())
-    .then(json=>console.log(json))
-    
-}
+checkoutBtn = document.querySelector('.checkout-btn')
+checkoutBtn.addEventListener('click',(event)=>{
+    selectedProducts = document.querySelectorAll('.selected_products')
+    console.log(selectedProducts)
+    let productsCount = 0
+    selectedProducts.forEach(product=>{
+        if(product.checked){
+            productsCount += 1
+        }
+    })
+    if(productsCount<1){
+        alert('Add atleast one Product.')
+        event.preventDefault()
+    }
+})

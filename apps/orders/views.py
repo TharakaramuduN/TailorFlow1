@@ -25,7 +25,9 @@ def orders(request):
 @login_required
 def select_customer(request):
     customers = Customer.objects.filter(tailor=request.user)
-    return render(request,'orders/select_customer.html',context={'customers':customers})
+    pagination = Paginator(customers,7)
+    page_obj = pagination.get_page(1)
+    return render(request,'orders/select_customer.html',context={'page_obj':page_obj})
 
 @login_required
 def select_products(request,customer_id):
