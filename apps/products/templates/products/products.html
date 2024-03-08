@@ -6,12 +6,12 @@
 {%endblock stylesheet%}
 
 {%block content%}
-    <section class="products-section flex flex-col items-center justify-center border px-5">
+    <section class="products-section flex flex-col items-center  border px-5 min-h-[90vh]">
         <div class=" flex justify-between  max-w-5xl items-center mt-10 w-full my-4">
             <h1 class=" text-xl sm:text-3xl font-semibold">Product List</h1>
             <span class="text-sm sm:text-lg"><a href="{%url 'create-product'%}" class=" border px-3 py-1 bg-black text-white rounded-md ">Add Product</a></span>
         </div>
-        <div class="container mx-auto  max-w-5xl my-5 border p-3 sm:p-5 rounded-md">
+        <div class="container mx-auto  max-w-5xl my-5 border p-3 sm:p-5 rounded-md min-h-[70vh]">
             <div class="searchbar-filters flex gap-3 flex-wrap w-full justify-between items-center">
                 <div class="group">
                     <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
@@ -38,7 +38,7 @@
                     </span>
                 </div>
             </div>
-            <div class="products-container sm:gap-6 gap-3  grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-auto w-full py-5">
+            <div class="products-container sm:gap-6 gap-3  grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-auto w-full py-5 ">
                 {% for product in products %}
                 <div class="product-card  rounded  shadow-lg h-96 justify-center">
                     <div class="product-img h-[60%] sm:h-[70%]">
@@ -52,8 +52,15 @@
                 </div>
                 {% endfor %}
             </div>
+            <div {%if not products%} class="not-found h-full w-full flex flex-col gap-4 items-center justify-center min-h-[50vh]" {%else%} class="not-found h-full w-full flex items-center justify-center" {%endif%}>
+                {%if not products%}
+                    <h1 class=" text-xl sm:text-3xl md:text-4xl lg:text-6xl  font-medium text-gray-500">No Products Found</h1>
+                    <a class=" text-xl font-medium text-gray-500"  href="{% url 'create-product'%}">Click here to add Product</a>
+                {%endif%}
+            </div>
         </div>
-    
+        
+        
     </section>
     <script src="{%static 'js/products.js'%}"></script>
 {%endblock content%}
