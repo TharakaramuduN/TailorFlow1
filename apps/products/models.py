@@ -18,7 +18,6 @@ class Product(models.Model):
     category = models.CharField(max_length=100)
     inventory = models.IntegerField(default=0)
     image = models.ImageField(upload_to='product_images/')
-    rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
     tags = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
