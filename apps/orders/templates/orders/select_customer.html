@@ -10,15 +10,15 @@
 <form action="" method="post" id="form">
   {%csrf_token%}
 <section class="customer-section">
-    <div class="customer-content max-w-5xl mx-auto sm:p-8 p-4 min-h-[90vh]">
+    <div class="customer-content max-w-5xl mx-auto sm:p-8 p-4">
       <div class=" flex justify-between ">
-        <h1 class=" text-xl sm:text-3xl font-medium">Customers</h1>
+        <h1 class=" text-xl sm:text-3xl font-medium">Select Customer</h1>
         <button class=" sm:px-4 px-2 rounded-full bg-yellow-500 text-black font-medium">
-          <a href="{%url 'new-customer'%}?origin=select-customer">Add Customer</a>
+          <a href="{%url 'new-customer'%}">Add Customer</a>
         </button>
       </div>
 
-      <div class="border rounded-lg h-fit sm:p-3 p-2 my-5">
+      <div class="border rounded-lg h-fit sm:p-3 p-2 my-5 min-h-[70vh]">
 
         <div class=" h-fit  gap-3">
           <div class="searchbar-filters flex gap-3 flex-wrap w-full justify-between items-center">
@@ -47,56 +47,65 @@
             </div>
           </div>
 
-
           <table class=" w-full text-center border mt-5 rounded-3xl ">
-            <thead class=" bg-[#2b2d42] text-white ">
-              <tr>
-                <td class="rounded-l-lg">Profile</td>
-                <td>Name</td>
-                <td class="rounded-r-lg sm:rounded-none">Phone</td>
-                <td>Email</td>  
-                <td class=" rounded-r-lg">City</td>
-              </tr>
-            </thead>
-            <tbody class="">
-              {% for customer in page_obj%}
-                    <tr class=" hover:cursor-pointer tr">
-                        <td class=" flex justify-center items-center h-14"><a style="padding:inherit" class="flex items-center justify-center w-full h-full "  href="{%url 'select-products' customer.id%}"><img class=" h-8 w-8 sm:h-10 sm:w-10 rounded-full" src={{customer.profile.url}} alt=""></a></td>
-                        <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.first_name}}</a></td>
-                        <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.phone}}</a></td>
-                        <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.email}}</a></td>
-                        <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.city}}</a></td>
-                    </tr>
-              {%endfor%}
-            </tbody>
-          </table>
+              {%if page_obj%}
+                <thead class=" bg-[#2b2d42] text-white ">
+                  <tr>
+                    <td class="rounded-l-lg">Profile</td>
+                    <td>Name</td>
+                    <td class="rounded-r-lg sm:rounded-none">Phone</td>
+                    <td>Email</td>  
+                    <td class=" rounded-r-lg">City</td>
+                  </tr>
+                </thead>
+              {%endif%}
+              <tbody class="">
+                {% for customer in page_obj%}
+                      <tr class=" hover:cursor-pointer tr">
+                          <td class=" flex justify-center items-center h-14"><a style="padding:inherit" class="flex items-center justify-center w-full h-full "  href="{%url 'select-products' customer.id%}"><img class=" h-8 w-8 sm:h-10 sm:w-10 rounded-full" src={{customer.profile.url}} alt=""></a></td>
+                          <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.first_name}}</a></td>
+                          <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.phone}}</a></td>
+                          <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.email}}</a></td>
+                          <td><a style="padding:inherit" class="block w-full h-full"  href="{%url 'select-products' customer.id%}">{{customer.city}}</a></td>
+                      </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+          <div {%if not page_obj%} class="not-found h-full w-full flex flex-col gap-4 items-center justify-center min-h-[60vh]" {%else%} class="not-found h-full w-full flex items-center justify-center" {%endif%}>
+            {%if not page_obj%}
+                <h1 class=" text-xl sm:text-3xl md:text-4xl lg:text-6xl  font-medium text-gray-500">No Customers Found</h1>
+                <a class=" text-xl font-medium text-gray-500"  href="{% url 'new-customer'%}">Click here to add Customer</a>
+            {%endif%}
+          </div>
       </div>
     </div>
     <div class="pagination flex items-center justify-center mx-auto max-w-4xl  sm:px-8 px-4">
-      <span class="step-links flex  w-full justify-between">
-          {% if page_obj.has_previous %}
-              <button type="button" class=" border px-3 bg-yellow-500 rounded-full" ><i class="fa-solid fa-angle-left"></i></button>
-          {%else%}
+        {%if page_obj%}
+        <span class="step-links flex  w-full justify-between">
+            {% if page_obj.has_previous %}
+                <button type="button" class=" border px-3 bg-yellow-500 rounded-full" ><i class="fa-solid fa-angle-left"></i></button>
+            {%else%}
+                <div class="hidden-obj">
+
+                </div>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+              <span>
+                <button type="button" onclick="filterCustomers('{{page_obj.next_page_number}}')" class=" border px-3 bg-yellow-500 rounded-full"><i class="fa-solid fa-angle-right"></i></button>
+              </span>
+            {%else%}
               <div class="hidden-obj">
 
               </div>
-          {% endif %}
-  
-          <span class="current">
-              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-          </span>
-  
-          {% if page_obj.has_next %}
-            <span>
-              <button type="button" onclick="filterCustomers('{{page_obj.next_page_number}}')" class=" border px-3 bg-yellow-500 rounded-full"><i class="fa-solid fa-angle-right"></i></button>
-            </span>
-          {%else%}
-            <div class="hidden-obj">
-
-            </div>
-          {% endif %}
-      </span>
-    </div>
+            {% endif %}
+        </span>
+        {%endif%}
+      </div>
   </section>
 </form>
 <script src="{%static 'js/select_customer.js'%}"></script>

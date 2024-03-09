@@ -21,51 +21,58 @@
                     <div class="card cart">
                         <label class="title">Your cart</label>
                         <div class="products flex gap-3 my-4">
-                            {% for form in formset %}
+                            {% for order_form in formset %}
                                 <div class="product-container px-5">
                                     <div class="product flex justify-between">
-                                        {{ form.product.as_hidden }}
-                                        {{ form.status.as_hidden }}
-                                        {{form.id.as_hidden}}
+                                        {{ order_form.product.as_hidden }}
+                                        {{ order_form.status.as_hidden }}
+                                        {{order_form.id.as_hidden}}
                                         
 
                                         <div class="flex gap-3">
-                                            <img class="h-20 w-16" src="{{ form.instance.product.image.url }}" alt="">
+                                            <img class="h-20 w-16" src="{{ order_form.instance.product.image.url }}" alt="">
                                             <div>
-                                                <span>{{ form.instance.product.title | truncatewords:'2' }}</span>
-                                                <p class="w-fit">{{ form.instance.product.description|truncatewords:'2' }}</p>
+                                                <span>{{ order_form.instance.product.title | truncatewords:'2' }}</span>
+                                                <p class="w-fit">{{ order_form.instance.product.description|truncatewords:'2' }}</p>
                                                 <p class="w-fit">No mayo</p>
                                             </div>
                                         </div>
 
                                         <div class="flex flex-col">
-                                            <input class="unit-price" type="hidden" value="{{ form.instance.product.price }}">
+                                            <input class="unit-price" type="hidden" value="{{ order_form.instance.product.price }}">
                                             <label class="price small flex"></label>
+                                            {%if form.instance.payment_type == 'PRE'%} 
+                                                <div class="flex content-center">Qty: {{order_form.instance.quantity}}</div>
+                                                <button type="button" class="justify-center items-center decrement-button hidden">-</button>
+                                                <input readonly  name="{{order_form.prefix}}-quantity" class="w-8 quantity-input hidden" type="number" value="{{ order_form.instance.quantity }}">
+                                                <button type="button" class=" justify-center items-center increment-button hidden">+</button>
+                                            {%else%}
                                             <div class="quantity">
                                                 <button type="button" class="flex justify-center items-center decrement-button">-</button>
-                                                <input readonly  name="{{form.prefix}}-quantity" class="w-6 quantity-input" type="number" value="{{ form.instance.quantity }}">
+                                                <input readonly  name="{{order_form.prefix}}-quantity" class="w-8 quantity-input" type="number" value="{{ order_form.instance.quantity }}">
                                                 <button type="button" class="flex justify-center items-center increment-button">+</button>
                                             </div>
+                                            {%endif%}
                                         </div>
                                     </div>
 
                                     <div class="text-end text-xs text-gray-600 py-2 flex justify-between sm:my-3 my-2">
                                       <div class="requested_date flex flex-wrap gap-2">
                                           <label class="text-xs sm:text-sm" for="requested_date">Req. Date:</label>
-                                          <input value="{{form.requested_date.value| date:'Y-m-d'}}"  class="text-xs sm:text-sm" type="date" name="{{form.prefix}}-requested_date" id="requested_date" required>
+                                          <input value="{{order_form.requested_date.value| date:'Y-m-d'}}"  class="text-xs sm:text-sm" type="date" name="{{order_form.prefix}}-requested_date" id="requested_date" required>
                                       </div>
                                       <span onclick="addNotes(event)" class="add-btn border px-2 rounded bg-gray-200 hover:cursor-pointer"> Notes</span>
                                     </div>
-                                    <textarea class="hidden w-full border sm:p-3 p-2 rounded-md sm:text-sm text-xs mb-3" name='form-{{ forloop.counter0 }}-notes' id='notes' rows="2" placeholder="Add notes here...">{{form.notes.value}}</textarea>
+                                    <textarea class="hidden w-full border sm:p-3 p-2 rounded-md sm:text-sm text-xs mb-3" name='order_form-{{ forloop.counter0 }}-notes' id='notes' rows="2" placeholder="Add notes here...">{{order_form.notes.value}}</textarea>
                                     <div class="is-urgent flex justify-between items-center gap-3 my-3">
                                       <div class="text-xs sm:text-sm">
                                         <label for="">Status</label>
-                                        {{form.status}}
+                                        {{order_form.status}}
                                       </div>
                                       <div class="flex items-center justify-center gap-2">
                                         <span class="sm:text-sm text-xs">Urgent:</span>
                                         <label onclick="toggleUrgent(event)" class="toggle-switch">
-                                          <input class="urgent-checkbox" name="{{ form.prefix }}-urgent" {%if form.urgent.value%} checked {%endif%} type="checkbox">
+                                          <input class="urgent-checkbox" name="{{ order_form.prefix }}-urgent" {%if order_form.urgent.value%} checked {%endif%} type="checkbox">
                                             <div class="toggle-switch-background">
                                                 <div class="toggle-switch-handle"></div>
                                             </div>
