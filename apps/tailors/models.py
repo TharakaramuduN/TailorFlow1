@@ -17,8 +17,8 @@ class TailorUser(AbstractUser):
 @receiver(post_save,sender=TailorUser)
 def create_default_products(sender,instance,created,*args, **kwargs):
     if created:
-        base_dir = str(settings.BASE_DIR)
-        image_dir = os.path.join(base_dir, 'media', 'default', 'product_images')
+        base_dir = str(settings.MEDIA_ROOT)
+        image_dir = os.path.join(base_dir,'default', 'product_images')
         Product.objects.create(tailor=instance,title='Mens Casual Shirt',description='Casual shirt for mens',price=499,category='Shirt',image=os.path.join(image_dir,'mens_casual_shirt.jpg'),gender='M')
         Product.objects.create(tailor=instance,title='Mens Oversized Shirt',description='Oversized shirt for mens',price=699,category='Shirt',image=os.path.join(image_dir,'oversized_shirt.jpg'),gender='M')
         Product.objects.create(tailor=instance,title='Embroided Shirt',description='Embroided shirt for mens',price=699,category='Shirt',image=os.path.join(image_dir,'embroided_shirt_men.webp'),gender='M')
