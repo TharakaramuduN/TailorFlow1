@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 
 @login_required
 def new_customer(request):
-    origin = request.GET.get('origin','')
+    # origin = request.GET.get('origin','')
     form = CustomerForm() 
 
     if request.method == "POST":
@@ -28,8 +28,8 @@ def new_customer(request):
                     customer = form.save(commit=False)
                     customer.tailor = request.user
                     customer.save()
-                    if origin:
-                        return redirect(f'/add-measurements/{customer.id}/?next=select-products')
+                    # if origin:
+                    #     return redirect(f'/add-measurements/{customer.id}')
                     return redirect(add_measurements,customer_id=customer.id)
                 except IntegrityError as e:
                     # Handle any potential IntegrityError that may occur during the save
@@ -61,8 +61,7 @@ def customers(request):
     tailor = request.user
     customers = Customer.objects.filter(tailor=tailor)
     pagination = Paginator(customers,7)
-    page_num = request.GET.get('page')
-    page_obj = pagination.get_page(page_num)
+    page_obj = pagination.get_page(1)
     return render(request,'customers/customers.html',context={'page_obj':page_obj})
 
 @login_required
@@ -80,7 +79,7 @@ def customer_details(request,customer_id):
 
 @login_required
 def add_measurements(request,customer_id):
-    next_url = request.GET.get('next','')
+    # next_url = request.GET.get('next','')
     customer = Customer.objects.get(id=customer_id)
     form = MeasurementsForm()
     if request.method == "POST":
@@ -89,9 +88,9 @@ def add_measurements(request,customer_id):
             measurements = form.save(commit=False)
             measurements.customer = customer
             measurements.save()
-            if next_url:
-                return redirect('select-products',customer_id=customer_id)
-            return redirect(customer_details,customer_id=customer_id)
+            # if next_url:
+            return redirect('select-products',customer_id=customer_id)
+            # return redirect(customer_details,customer_id=customer_id)
     return render(request,'customers/add_measurements.html',context={'form':form,'customer':customer})
 
 @login_required

@@ -25,6 +25,9 @@ class Customer(models.Model):
     profile = models.ImageField(blank=True,null=True,upload_to='profile/',default='default/profile-user.png')
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self) -> str:
         return self.first_name
     
