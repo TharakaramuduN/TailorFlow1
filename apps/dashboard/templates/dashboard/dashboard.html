@@ -1,90 +1,39 @@
 {%extends 'base.html'%}
-
+{%load static%}
 {%block content%}
-
-    <h1>dashboard</h1>
     <form action="" method="POST">
         {%csrf_token%}
-        <section>
-            <div class="dashboard-container border ">
-                <div class="buttons-section">
-                    <button onclick="filterProducts('Stitched')" class="border px-2 bg-slate-50 rounded-md" type="button">Stitched</button>
-                    <button onclick="filterProducts('Not-Stitched')" class="border px-2 bg-slate-50 rounded-md" type="button">Not Stitched</button>
-                    <button onclick="filterProducts('Delivered')" class="border px-2 bg-slate-50 rounded-md" type="button">Urgent</button>
+        <h1 class=" text-center text-4xl font-bold text-gray-500 my-5">Dashboard</h1>
+        <section class=" max-w-4xl flex items-center w-full justify-center mx-auto  overflow-scroll">
+            <div class="dashboard-container border w-full p-5 rounded-lg mb-3">
+                <div class="buttons-section mb-4 mt-2">
+                    <button onclick="filterOrderItems(event)" id="Not-Stitched" class="border filter-btn px-2 bg-gray-800 text-white rounded-md" type="button">Not Stitched</button>
+                    <button onclick="filterOrderItems(event)" id="urgent" class="border filter-btn px-2  rounded-md" type="button">Urgent</button>
+                    <button onclick="filterOrderItems(event)" id="Stitched" class="border filter-btn px-2 rounded-md" type="button">Stitched</button>
                 </div>
-                <div class="products-container">
-                    {%for order in orders%}
-                        {%for item in order.items.all%}
-                            <div class="product-card flex">
-                                {{order.customer.first_name}}
-                                {{item.product.title}}
-
-                                <select name="status" id="select-{{item.id}}" onchange="displayCheckButton(event)">
-                                    <option {%if item.status == 'Stitched'%} selected {%endif%} value="Stitched">Stitched</option>
-                                    <option {%if item.status == 'Not-Stitched'%} selected {%endif%} value="Not-Stitched">Not Stitched</option>
-                                    <option {%if item.status == 'Delivered'%} selected {%endif%} value="Delivered">Delivered</option>
-                                </select>
-                                
-                                <div id="{{item.id}}" class="check-btn-{{item.id}} hidden px-4 hover:cursor-pointer" onclick="updateStatus(event)" >
-                                    <i id="{{item.id}}" class="fa-solid fa-check text-green-600"></i>
-                                </div>
-                                
+                <div class="products-container-header">
+                    <div class="grid grid-cols-10 p-2 sm:px-3   bg-gray-800 text-white rounded-tr-md rounded-tl-md h-10  sm:h-12 items-center text-sm sm:text-lg">
+                        <p class="  col-span-3">Name</p>
+                        <p class="col-span-4">Product Title</p>
+                        <p class="  col-span-2">Req. Date</p>
+                        <div></div>
+                    </div>
+                </div>
+                <div class="products-container gap-3 min-h-[55vh] max-h-[55vh] overflow-scroll scroll-m-1">
+                    {%for item in order_items%}
+                        <div class="product-card grid grid-cols-10 p-2 sm:px-3  even:bg-gray-200 odd:bg-gray-50 gap-2 text-sm sm:text-base items-center">
+                            <p class="  col-span-3">{{item.customer_name}}</p>
+                            <p class=" col-span-4">{{item.title|truncatewords:'2'}}</p>
+                            <p class="  col-span-2">{{item.requested_date|date:'M,d'}}</p>
+                            <div id="{{item.id}}" class="check-btn-{{item.id}} px-4 hover:cursor-pointer"  onclick="updateStatus(event)" >
+                                <i id="{{item.id}}" class="fa-solid fa-check text-green-600"></i>
                             </div>
-                        {%endfor%}
+                        </div>
                     {%endfor%}
                 </div>
             </div>
         </section>
     </form>
-
-    <script>
-        function displayCheckButton(event) {
-            const parentDiv = event.target.closest('div')
-            const checkBtn = parentDiv.querySelector('div')
-            checkBtn.classList.remove('hidden');
-        }
-
-        async function filterProducts(filterBy){
-            let response = await fetch(`/filter-products/?filter=${filterBy}`)
-            if(!response.ok){
-                throw Error('Page not found')
-            }
-            const orderItems = await response.json()
-            const productsContainer = document.querySelector('.products-container')
-            productsContainer.innerHTML = ''
-            console.log(orderItems,'helloooooo')
-            orderItems['data'].forEach((item) => {
-                const divElement = document.createElement('div')
-                divElement.classList.add('product-card','flex')
-                divElement.innerHTML = `
-                ${item.customer.first_name}
-                ${item.product.title}
-
-                <select name="status" id="select-${item.id}" onchange="displayCheckButton(event)">
-                    <option ${item.status === 'Stitched' ? 'selected' : ''} value="Stitched">Stitched</option>
-                    <option ${item.status === 'Not-Stitched' ? 'selected' : ''} value="Not-Stitched">Not Stitched</option>
-                    <option ${item.status === 'Delivered' ? 'selected' : ''} value="Delivered">Delivered</option>
-                </select>
-                
-                <div id=${item.id} class="check-btn-${item.id} hidden px-4 hover:cursor-pointer" onclick="updateStatus(event)" >
-                    <i id=${item.id} class="fa-solid fa-check text-green-600"></i>
-                </div>
-                `
-                productsContainer.appendChild(divElement)
-            })
-        }
-
-        async function updateStatus(event){
-            const itemId = event.target.id
-            const status = document.getElementById('select-' + itemId)
-            console.log(status)
-            const response = await fetch(`/update-status/${itemId}/${status.value}`)
-            if(!response.ok){
-                throw Error('Page Not found')
-            }
-
-        }
-        
-    </script>
+    <script src="{%static 'js/dashboard.js'%}"></script>
 
 {%endblock content%}
