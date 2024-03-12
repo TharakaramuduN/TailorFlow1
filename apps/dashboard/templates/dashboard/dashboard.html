@@ -3,37 +3,87 @@
 {%block content%}
     <form action="" method="POST">
         {%csrf_token%}
-        <h1 class=" text-center text-4xl font-bold text-gray-500 my-5">Dashboard</h1>
-        <section class=" max-w-4xl flex items-center w-full justify-center mx-auto  overflow-scroll">
-            <div class="dashboard-container border w-full p-5 rounded-lg mb-3">
-                <div class="buttons-section mb-4 mt-2">
-                    <button onclick="filterOrderItems(event)" id="Not-Stitched" class="border filter-btn px-2 bg-gray-800 text-white rounded-md" type="button">Not Stitched</button>
-                    <button onclick="filterOrderItems(event)" id="urgent" class="border filter-btn px-2  rounded-md" type="button">Urgent</button>
-                    <button onclick="filterOrderItems(event)" id="Stitched" class="border filter-btn px-2 rounded-md" type="button">Stitched</button>
+        <h1 class=" text-center text-4xl font-bold text-gray-700 my-5">Dashboard</h1>
+        <section class=" max-w-4xl flex flex-col items-center w-full justify-center mx-auto gap-5 px-3">
+            <div class="sales-dashboard-container w-full flex flex-col gap-5 border p-5 rounded-lg">
+                <div class="filters justify-end flex w-full">
+                    <span class=" px-2">Show: </span>
+                    <select name="filter-by-date" id="filter-by-date">
+                        <option value="Total">Total</option>
+                        <option value="Today">Today</option>
+                        <option value="last_7_days">Last 7 days</option>
+                        <option value="this_month">This Month</option>
+                        <option value="this_year">This year</option>
+                        <option value="Yearly">Custom Range</option>
+                    </select>
                 </div>
-                <div class="products-container-header">
-                    <div class="grid grid-cols-10 p-2 sm:px-3   bg-gray-800 text-white rounded-tr-md rounded-tl-md h-10  sm:h-12 items-center text-sm sm:text-lg">
-                        <p class="  col-span-3">Name</p>
-                        <p class="col-span-4">Product Title</p>
-                        <p class="  col-span-2">Req. Date</p>
-                        <div></div>
+                <div class="sales-dashboard grid gap-2 sm:gap-4 grid-cols-3">
+                    <div class="card border px-5 py-2 rounded-md bg-gray-800 text-white">
+                        <p class=" text-sm sm:text-base">Orders</p>
+                        <p class="total-orders-count font-medium text-sm sm:text-base text-yellow-400">{{total_orders}}</p>
+                    </div>
+                    <div class="card border px-5 py-2 rounded-md bg-gray-800 text-white">
+                        <p class=" text-sm sm:text-base">Customers</p>
+                        <p class="total-customers-count font-medium text-sm sm:text-base text-yellow-400">{{total_customers}}</p>
+                    </div>
+                    <div class="card border  px-5 py-2 rounded-md bg-gray-800 text-white">
+                        <p class=" text-sm sm:text-base">Sales</p>
+                        <p class="total-sales-count font-medium text-sm sm:text-base text-yellow-400">₹ {{sales}}</p>
+                    </div>
+                    <div class="card border  px-5 py-2 rounded-md bg-gray-800 text-white">
+                        <p class=" text-sm sm:text-base">Items</p>
+                        <p class="total-items-count font-medium text-sm sm:text-base text-yellow-400">{{total_order_items}}</p>
+                    </div>
+                    <div class="card border  px-5 py-2 rounded-md bg-gray-800 text-white">
+                        <p class=" text-sm sm:text-base">Prepaid </p>
+                        <p class="total-prepaid-count font-medium text-sm sm:text-base text-yellow-400">{{prepaid}}</p>
+                    </div>
+                    <div class="card border  px-5 py-2 rounded-md bg-gray-800 text-white">
+                        <p class=" text-sm sm:text-base">Postpaid </p>
+                        <p class="total-postpaid-count font-medium text-sm sm:text-base text-yellow-400">{{postpaid}}</p>
                     </div>
                 </div>
-                <div class="products-container gap-3 min-h-[55vh] max-h-[55vh] overflow-scroll scroll-m-1">
-                    {%for item in order_items%}
-                        <div class="product-card grid grid-cols-10 p-2 sm:px-3  even:bg-gray-200 odd:bg-gray-50 gap-2 text-sm sm:text-base items-center">
-                            <p class="  col-span-3">{{item.customer_name}}</p>
-                            <p class=" col-span-4">{{item.title|truncatewords:'2'}}</p>
-                            <p class="  col-span-2">{{item.requested_date|date:'M,d'}}</p>
-                            <div id="{{item.id}}" class="check-btn-{{item.id}} px-4 hover:cursor-pointer"  onclick="updateStatus(event)" >
-                                <i id="{{item.id}}" class="fa-solid fa-check text-green-600"></i>
-                            </div>
+            </div>
+            <div class="products-dashboard-container border w-full p-5 rounded-lg mb-3">
+                <div class="buttons-section mb-4 mt-2 flex flex-wrap justify-between gap-2 sm:gap-3">
+                    <div class=" flex gap-2 sm:gap-3">
+                        <button onclick="filterOrderItems('Not-Stitched')" id="Not-Stitched" class="border filter-btn px-2 text-sm sm:text-base bg-gray-800 text-white rounded-md selected-status" type="button">Not-Stitched (<span class="Not-Stitched-count pointer-events-none">{{order_items|length}}</span>)</button>
+                        <button onclick="filterOrderItems('urgent')" id="urgent" class="border filter-btn px-2 text-sm sm:text-base  rounded-md " type="button">Urgent (<span class="urgent-count pointer-events-none">{{urgent}}</span>)</button>
+                        <button onclick="filterOrderItems('Stitched')" id="Stitched" class="border filter-btn px-2 text-sm sm:text-base rounded-md " type="button">Stitched (<span class="Stitched-count pointer-events-none">{{stitched}}</span>)</button>
+                    </div>
+                    <div class="delivered flex">Delivered: <p class=" font-medium px-2">{{delivered}}</p></div>
+                </div>
+                <div class="products-container-header">
+                    {%if order_items%}
+                        <div class="grid grid-cols-10 p-2 sm:px-3   bg-gray-800 text-white rounded-tr-md rounded-tl-md h-10  sm:h-12 items-center text-sm sm:text-lg">
+                            <p class="  col-span-3">Name</p>
+                            <p class="col-span-4">Product Title</p>
+                            <p class="  col-span-2">Req. Date</p>
+                            <div></div>
                         </div>
-                    {%endfor%}
+                    {%endif%}
+                </div>
+                <div class="products-container gap-3 min-h-[55vh] h-full max-h-[55vh] overflow-scroll">
+                    {%if order_items%}
+                        {%for item in order_items%}
+                            <div class="product-card grid grid-cols-10 p-2 sm:px-3  even:bg-gray-200 odd:bg-gray-50 gap-2 text-sm sm:text-base items-center">
+                                <p class="  col-span-3">{{item.customer_name}}</p>
+                                <p class=" col-span-4">{{item.title|truncatewords:'2'}}</p>
+                                <p class="  col-span-2">{{item.requested_date|date:'M,d'}}</p>
+                                <div id="{{item.id}}" class="check-btn-{{item.id}} hover:cursor-pointer"  onclick="updateStatus(event)" >
+                                    <img class=" pointer-events-none h-7 sm:h-7 w-7 sm:w-7" src="{% static 'icons/checked.png'%}" alt="stitched">
+                                </div>
+                            </div>
+                        {%endfor%}
+                    {%else%}
+                        <div class="no-items h-full w-full items-center justify-center">
+                            <h1 class=' text-3xl text-gray-600 font-medium text-center'>No Items</h1>
+                        </div>
+                    {%endif%}
                 </div>
             </div>
+
         </section>
     </form>
     <script src="{%static 'js/dashboard.js'%}"></script>
-
 {%endblock content%}
