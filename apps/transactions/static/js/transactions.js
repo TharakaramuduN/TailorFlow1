@@ -24,7 +24,7 @@ async function filterTransactions(page_num){
                     <p class=" text-sm  text-gray-500">Order Id:${transaction.order__id}</p>
                 </div>
             </div>
-            <div class=" flex justify-center items-center font-bold"><p>${transaction.amount}</p></div>
+            <div class=" flex justify-center items-center font-bold"><p>₹ ${transaction.amount}</p></div>
             `
             transactionsContainer.appendChild(divElement)
     })}
