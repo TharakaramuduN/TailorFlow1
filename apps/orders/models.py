@@ -40,3 +40,5 @@ class OrderItem(models.Model):
     urgent = models.BooleanField(default=False,blank=True)
     stitched_on = models.DateField(blank=True,null=True)
     delivered_on = models.DateField(blank=True,null=True)
+    class Meta:
+        ordering = ['requested_date']

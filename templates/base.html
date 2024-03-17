@@ -26,17 +26,18 @@
   </head>
   <body>
     <nav class="sticky top-0 z-50">
-      <div class="logo">
-        <h1 class="text-xl font-bold">Tailor</h1>
+      <div class="logo flex items-center justify-center">
+        <h1 class="text-lg font-bold">Tailor</h1>
         <h2 class="text-lg font-bold">Flow</h2>
       </div>
       <ul>
-        <li><a href="{%url 'home'%}">Home</a></li>
-        <li><a href="{%url 'orders'%}">Orders</a></li>
-        <li><a href="{%url 'customers'%}">Customers</a></li>
-        <li><a href="{%url 'Transactions'%}">Transactions</a></li>
-        <li><a href="{%url 'products'%}">Products</a></li>
-        <li><a href="{%url 'profile'%}">Profile</a></li>
+        <li><a class="nav-link" id="Home" href="{%url 'home'%}">Home</a></li>
+        <li><a class="nav-link" id="Orders" href="{%url 'orders'%}">Orders</a></li>
+        <li><a class="nav-link" id="Customers" href="{%url 'customers'%}">Customers</a></li>
+        <li><a class="nav-link" id="Transactions" href="{%url 'Transactions'%}">Transactions</a></li>
+        <li><a class="nav-link" id="Products" href="{%url 'products'%}">Products</a></li>
+        <li><a class="nav-link" id="Dashboard" href="{%url 'dashboard'%}">Dashboard</a></li>
+        <li><a class="nav-link" id="Profile" href="{%url 'profile'%}">Profile</a></li>
       </ul>
       <div class="sm:hidden text-white">
         <button onclick="toggleMenu(event)"  class="hamburger-btn" type="button"><i class="fa-solid fa-bars text-xl"></i></button>
@@ -80,6 +81,13 @@
             </a>
           </li>
           <li>
+            <a class="flex gap-2" href="{%url 'dashboard'%}">
+              <span class=" flex items-center justify-center">
+                <i class="fa-solid fa-chart-line"></i>
+              </span>Dashboard
+            </a>
+          </li>
+          <li>
             <a class="flex gap-2" href="{%url 'profile'%}">
               <span class=" flex items-center justify-center">
                 <img class=" h-4 w-4 text-white" src="{%static 'icons/profile-user.png'%}" alt="">
@@ -97,47 +105,19 @@
     
     {% endblock content%}
 
-    <footer class="footer">
-      <div class="container">
-        <div class="row">
-          <div class="footer-col">
-            <h4>company</h4>
-            <ul>
-              <li><a href="#">about us</a></li>
-              <li><a href="#">our services</a></li>
-              <li><a href="#">privacy policy</a></li>
-              <li><a href="#">affiliate program</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h4>get help</h4>
-            <ul>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">shipping</a></li>
-              <li><a href="#">returns</a></li>
-              <li><a href="#">order status</a></li>
-              <li><a href="#">payment options</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h4>online shop</h4>
-            <ul>
-              <li><a href="#">watch</a></li>
-              <li><a href="#">bag</a></li>
-              <li><a href="#">shoes</a></li>
-              <li><a href="#">dress</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h4>follow us</h4>
-            <div class="social-links">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    <footer class=' bg-[#24262b] text-white py-12 footer '>
+      <div class="px-10 flex justify-center">
+          <div class=" flex justify-between w-[900px] gap-7 flex-wrap">
+            <div class="logo">
+              <h1 class="text-xl font-bold">Tailor</h1>
+              <h2 class="text-lg font-bold">Flow</h2>
+            </div>
+            <h3>Copyright © 2024. All rights are reserved</h3>
+            <div class=" gap-4 flex">
+                <a href="https://www.linkedin.com/in/tharakaramudu-nagaladinne-7b36a523b/"><i class="fa-brands fa-linkedin text-xl sm:text-2xl "></i></a>
+                <a href="https://github.com/TharakaramuduN"><i class="fa-brands fa-github text-xl sm:text-2xl"></i></a>
             </div>
           </div>
-        </div>
       </div>
     </footer>
 

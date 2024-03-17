@@ -42,7 +42,8 @@ def dashboard(request):
     return render(request,'dashboard/dashboard.html',{'order_items':order_items,'total_orders':len(orders),
                                                       'sales':sales,'total_customers':len(customers),
                                                       'delivered':delivered,'total_order_items':total_order_items,
-                                                      'urgent':urgent,'stitched':stitched,'prepaid':prepaid,'postpaid':postpaid})
+                                                      'urgent':urgent,'stitched':stitched,'prepaid':prepaid,'postpaid':postpaid,
+                                                      'title':'Dashboard'})
 
 def update_status(request,item_id):
     order_item = OrderItem.objects.get(id=item_id)

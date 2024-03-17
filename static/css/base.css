@@ -8,8 +8,8 @@
 nav{
     display: flex;
     justify-content: space-between;
-    padding-left: 15%;
-    padding-right: 15%;
+    padding-left: 10%;
+    padding-right: 10%;
     height: 60px;
     align-items: center;
     background-color: #24262b;
@@ -21,7 +21,7 @@ nav ul{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 60%;
+    width: 65%;
     list-style: none;
 }
 
@@ -34,12 +34,12 @@ nav ul li a:hover{
     color: #fde047;
 }
 
-nav .logo{
+.logo{
     display: flex;
     color: white;
 }
 
-nav .logo h1{
+.logo h1{
     color: #fde047;
 }
 
@@ -129,8 +129,8 @@ footer{
  
 @media(max-width: 1030px){
       nav{
-          padding-left: 10%;
-          padding-right: 10%;
+          padding-left: 7%;
+          padding-right: 7%;
       }
   }
 
@@ -147,6 +147,10 @@ footer{
     nav ul{
         width: 70%;
     }
+
+	#Products{
+		display: none;
+	}
 }
 @media(max-width: 640px){
   .footer-col{
