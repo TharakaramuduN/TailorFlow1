@@ -13,6 +13,15 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.core import serializers
 from datetime import datetime
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from PIL import Image
+import requests
+from django.conf import settings
+import urllib.parse
+import os
 # Create your views here.
 
 @login_required
@@ -20,7 +29,7 @@ def orders(request):
     orders = Order.objects.filter(tailor=request.user)
     paginator = Paginator(orders, 5)
     page_obj = paginator.get_page(1)
-    return render(request,'orders/orders.html',{'page_obj':page_obj})
+    return render(request,'orders/orders.html',{'page_obj':page_obj,'title':'Orders'})
 
 @login_required
 def select_customer(request):
@@ -92,7 +101,6 @@ def order_details(request,order_id):
     OrderItemFormSet = modelformset_factory(OrderItem,fields='__all__',extra=0)
     transaction_form = TransactionForm()
     transactions = Transaction.objects.filter(order=order)
-    print(transactions)
     amount_paid = 0
     for transaction in transactions:
         amount_paid += transaction.amount
@@ -127,6 +135,7 @@ def order_details(request,order_id):
         'order': order,'transaction_form':transaction_form,
         'amount_paid':amount_paid,
         'max_input_value':max_input_value,
+        'title':'Order Details'
         })
 
 @login_required
@@ -154,3 +163,78 @@ def filter_orders(request):
 
     }
     return JsonResponse({'page_obj':page_data,'orders':orders_data})
+
+@login_required
+def generate_invoice_pdf(request,order_id):
+    # Retrieve the order details from the Order model
+    order = Order.objects.get(id=order_id)
+    order_items = order.items.all()
+    transactions = Transaction.objects.filter(order=order)
+    amount_paid = 0
+    for transaction in transactions:
+        amount_paid += transaction.amount
+
+    # Create a BytesIO buffer to write PDF content
+    buffer = BytesIO()
+
+    # Create a PDF document
+    p = canvas.Canvas(buffer, pagesize=letter)
+    p.setFont("Helvetica-Bold", 16)
+    p.setTitle(f"{order.customer.first_name}'s Invoice")  # Set PDF title
+
+    # Add invoice details
+    logo_path = os.path.join(settings.MEDIA_ROOT,'default','Logo.png')
+    print(logo_path)
+    p.drawImage(logo_path,220,750,width=60,height=25)
+    p.drawString(285, 755, "Invoice Details")
+    p.setFont("Helvetica", 12)
+    y_coordinate = 710
+    p.drawString(50, y_coordinate, f"Invoice Number: {order.id}")
+    p.drawString(50, y_coordinate - 20, f"Customer Name: {order.customer.first_name}")
+    p.drawString(50, y_coordinate - 40, f"Total Amount: {order.total_price}")
+    p.drawString(50, y_coordinate - 60, f"Amount Paid: {amount_paid}")
+
+    # Define the starting y-coordinate for the products
+    y_coordinate = 520
+
+    # Loop through each product and its associated photo
+    for item in order_items:
+        if y_coordinate < 30:
+            p.showPage()
+            y_coordinate = 620
+        image_url = item.product.image.url
+
+        # Decode the URI component
+        decoded_url = urllib.parse.unquote(image_url)
+
+        # Remove the '/media' prefix
+        correct_url = decoded_url.replace('/media/', '', 1)
+
+        # Add photo to the PDF (replace 'item.image_path' with the actual path to the image file)
+        p.drawImage(correct_url, x=50, y=y_coordinate, width=60, height=80)
+
+        # Add item details
+        p.drawString(130, y_coordinate + 70, f"item Name: {item.product.title}")
+        p.drawString(130, y_coordinate + 50, f"Price: {item.product.price}")
+        p.drawString(130, y_coordinate + 30, f"Qty: {item.quantity}")
+        p.drawString(130, y_coordinate + 10, f"Status: {item.status}")
+
+        # Increment y-coordinate for the next item
+        y_coordinate -= 120  # Adjust this value based on your layout
+
+    # Add more invoice details as needed
+
+    # Save PDF document
+    p.showPage()
+    p.save()
+
+    # Get PDF content from buffer
+    pdf_content = buffer.getvalue()
+    buffer.close()
+
+    # Create an HTTP response with PDF content as attachment
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="invoice_{order.id}.pdf"'
+    response.write(pdf_content)
+
+    return response
