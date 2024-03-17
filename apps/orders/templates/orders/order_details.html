@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="{% static 'css/order_details.css' %}">
 {% endblock stylesheet %}
 
+{%block title%}
+    {{title}}
+{%endblock title%}
+
 {% block content %}
     <form action="" method="POST">
         {% csrf_token %}
@@ -13,9 +17,9 @@
         {{ form.customer.as_hidden }}
         {{ form.items_count.as_hidden }}
         {{formset.management_form}}
-
-        <h1 class="text-center text-xl font-medium mt-16">{{ form.instance.customer.first_name }}'s Order details page</h1>
-        <section class="checkout-section">
+        
+        <h1 class="text-center text-xl font-medium mt-16">{{ form.instance.customer.first_name }}'s Order details page <a class="  border py-2 px-4 bg-yellow-200 text-sm ml-5 rounded-lg" href="/generate-invoice-pdf/{{order.id}}">Download Invoice</a></h1>
+        <section class="checkout-section min-h-[80vh]">
             <div class="checkout-container flex mx-5 justify-center">
                 <div class="master-container my-5 max-w-2xl w-full">
                     <div class="card cart">
