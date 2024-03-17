@@ -66,5 +66,5 @@ def profile(request):
     if request.method == "POST":
         logout(request)
         return redirect(tailor_login)
-    return render(request,'tailors/profile.html',context={'user':user})
+    return render(request,'tailors/profile.html',context={'user':user,'title':'Profile'})
 

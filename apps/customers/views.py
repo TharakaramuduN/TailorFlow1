@@ -62,7 +62,7 @@ def customers(request):
     customers = Customer.objects.filter(tailor=tailor)
     pagination = Paginator(customers,7)
     page_obj = pagination.get_page(1)
-    return render(request,'customers/customers.html',context={'page_obj':page_obj})
+    return render(request,'customers/customers.html',context={'page_obj':page_obj,'title':'Customers'})
 
 @login_required
 def customer_details(request,customer_id):

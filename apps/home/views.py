@@ -3,5 +3,4 @@ from django.shortcuts import render
 
 
 def home(request):
-    print(request.user.id)
-    return render(request, 'home/home.html', context={'title': 'home'})
+    return render(request, 'home/home.html', context={'title': 'Home'})

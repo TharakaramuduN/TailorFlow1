@@ -21,7 +21,7 @@ def create_product(request):
 @login_required
 def products(request):
     products = Product.objects.filter(tailor=request.user)
-    return render(request,'products/products.html',context={'products':products})
+    return render(request,'products/products.html',context={'products':products,'title':'Products'})
 
 @login_required
 def filter_products(request):

@@ -11,7 +11,7 @@ def transactions(request):
     transactions = Transaction.objects.filter(tailor=request.user)
     paginator = Paginator(transactions,6)
     page_obj = paginator.get_page(1)
-    return render(request,'transactions/transactions.html',{'page_obj':page_obj})
+    return render(request,'transactions/transactions.html',{'page_obj':page_obj,'title':'Transactions'})
 
 @login_required
 def filter_transactions(request):
