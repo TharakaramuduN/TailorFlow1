@@ -1,9 +1,13 @@
 {% extends 'base.html'%}
 
+{%block title%}
+    {{title}}
+{%endblock title%}
+
 {% block content%}
     <form action="" method="post">
         {% csrf_token%}
-        <section class="tailor-details-section sm:p-10">
+        <section class="tailor-details-section sm:p-10 min-h-[90vh]">
             <div class="tailor-details-content max-w-5xl mx-auto">
                 <div class="profile-card flex flex-col sm:flex-row border sm:p-10 p-5 relative text-center sm:text-left items-center sm:items-start rounded-md">
                     <div class="img-container sm:mr-10 mb-2 sm:mb-0">
@@ -25,4 +29,7 @@
             </div>
         </section>
     </form>
+    <script>
+        document.getElementById('Profile').classList.add('text-yellow-300')
+    </script>
 {%endblock content%}
