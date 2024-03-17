@@ -53,3 +53,5 @@ async function filterOrders(page_num){
             </span>` : '<div></div>'}
         </span>`
 }}
+
+document.getElementById('Orders').classList.add('text-yellow-300')

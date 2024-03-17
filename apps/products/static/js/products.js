@@ -46,10 +46,4 @@ function truncateWords(text, limit) {
     }
 }
 
-
-function filterProducts1(){
-    let response = fetch("https://fakestoreapi.com/products/category/men's clothing")
-            .then(res=>res.json())
-            .then(json=>console.log(json))
-
-}
+document.getElementById('Products').classList.add('text-yellow-300')

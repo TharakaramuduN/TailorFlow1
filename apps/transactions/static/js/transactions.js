@@ -50,3 +50,5 @@ async function filterTransactions(page_num){
             </span>` : '<div></div>'}
         </span>`
 }}
+
+document.getElementById('Transactions').classList.add('text-yellow-300')

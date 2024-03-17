@@ -78,8 +78,6 @@ async function filterOrderItems(filterBy){
 async function updateStatus(event){
     const selectedStatusBtn = document.querySelector('.selected-status')
     const itemId = event.target.id
-    const productsContainer = document.querySelector('.products-container')
-    const productCard = event.target.closest('.product-card')
     const response = await fetch(`/update-status/${itemId}`)
     if(!response.ok){
         throw Error('Page Not found')
@@ -130,3 +128,5 @@ async function filterSalesDashboard(){
     totalPrepaidElement.innerText = data.prepaid_count
     totalPostpaidElement.innerText = data.postpaid_count
 }
+
+document.getElementById('Dashboard').classList.add('text-yellow-300')

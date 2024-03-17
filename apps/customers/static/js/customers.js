@@ -61,3 +61,5 @@ async function filterCustomers(page_num){
         </span>` : '<div></div>'}
     </span>`
 }}
+
+document.getElementById('Customers').classList.add('text-yellow-300')
