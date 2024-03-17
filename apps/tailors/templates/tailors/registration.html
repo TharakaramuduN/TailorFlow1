@@ -8,35 +8,35 @@
               <form class="flex flex-col" method="post">
                 {%csrf_token%}
                 <div class=" mb-4">
-                    <input name="first_name" id="id_first_name" {%if form.first_name.value and not form.first_name.errors%} value="{{form.first_name.value}}" {%endif%} placeholder="First Name" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
+                    <input required name="first_name" id="id_first_name" {%if form.first_name.value and not form.first_name.errors%} value="{{form.first_name.value}}" {%endif%} placeholder="First Name" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
                     <span class=" text-red-400">{{form.first_name.errors}}</span>
                 </div>
                 <div class=" mb-4">
-                    <input name="last_name" id="id_last_name" {%if form.first_name.value and not form.last_name.errors%} value="{{form.last_name.value}}" {%endif%} placeholder="Last Name" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
+                    <input required name="last_name" id="id_last_name" {%if form.first_name.value and not form.last_name.errors%} value="{{form.last_name.value}}" {%endif%} placeholder="Last Name" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
                     <span class=" text-red-400">{{form.last_name.errors}}</span>
                 </div>
                 <div class=" mb-4">
-                    <input name="username" id="id_username" {%if form.username.value and not form.username.errors%} value="{{form.username.value}}" {%endif%} placeholder="Username" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
+                    <input required name="username" id="id_username" {%if form.username.value and not form.username.errors%} value="{{form.username.value}}" {%endif%} placeholder="Username" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
                     <span class=" text-red-400">{{form.username.errors}}</span>
                 </div>
                 <div class=" mb-4">
-                    <input name="email" id="id_email" {%if form.email.value and not form.email.errors%} value="{{form.email.value}}" {%endif%} placeholder="Email" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="email">
+                    <input required name="email" id="id_email" {%if form.email.value and not form.email.errors%} value="{{form.email.value}}" {%endif%} placeholder="Email" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="email">
                     <span class=" text-red-400">{{form.email.errors}}</span>
                 </div>
                 <div class=" mb-4">
-                    <input name="phone" id="id_phone" {%if form.phone.value and not form.phone.errors%} value="{{form.phone.value}}" {%endif%} placeholder="Phone" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
+                    <input required name="phone" id="id_phone" {%if form.phone.value and not form.phone.errors%} value="{{form.phone.value}}" {%endif%} placeholder="Phone" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="text">
                     <span class=" text-red-400">{{form.phone.errors}}</span>
                 </div>
                 <div class=" mb-4">
-                    <input name="password1" id="id_password1" {%if form.password1.value and not form.password1.errors%} value="{{form.password1.value}}" {%endif%} placeholder="Password" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="password">
+                    <input required name="password1" id="id_password1" {%if form.password1.value and not form.password1.errors%} value="{{form.password1.value}}" {%endif%} placeholder="Password" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="password">
                     <span class=" text-red-400">{{form.password1.errors}}</span>
                 </div>
                 <div class=" mb-4">
-                    <input name="password2" id="id_password2" {%if form.password2.value and not form.password2.errors%} value="{{form.password2.value}}" {%endif%} placeholder="Confirm Password" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="password">
+                    <input required name="password2" id="id_password2" {%if form.password2.value and not form.password2.errors%} value="{{form.password2.value}}" {%endif%} placeholder="Confirm Password" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" type="password">
                     <span class=" text-red-400">{{form.password2.errors}}</span>
                 </div>
                 <p class="text-gray-900 mt-4"> Already have an account? <a class="text-sm text-blue-500 -200 hover:underline mt-4" href="{%url 'login'%}">Login</a></p>
-                <button class="bg-[#212121] text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-blue-600 transition ease-in-out duration-150" type="submit">Sign Up</button>
+                <button class="bg-[#212121] text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-gray-700" type="submit">Sign Up</button>
               </form>
             </div>
           </div>          

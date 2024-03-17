@@ -7,19 +7,27 @@
 {%endblock stylesheet%}
 
 {%block content%}
-    <section class="login-container h-[90vh] flex items-center justify-center">
+    <section class="login-container h-[90vh] flex flex-col items-center justify-center">
+        <div class=" mb-3 font-medium text-red-500">
+            {%if next == '/orders/'%} Please Login to access Orders {%endif%}
+            {%if next == '/customers/'%} Please Login to access Customers {%endif%}
+            {%if next == '/transactions/'%} Please Login to access Transactions {%endif%}
+            {%if next == '/products/'%} Please Login to access Products {%endif%}
+            {%if next == '/profile/'%} Please Login to access Profile {%endif%}
+            {%if next == '/dashboard/'%} Please Login to access Dashboard {%endif%}
+        </div>
         <div class=" border  bg-white rounded-lg shadow-md p-6 max-w-md mx-5">
             <div class="form-content w-full">
-                <h1 class=" text-2xl font-bold">Login</h1>
-                <p style="color: red; text-align:center; margin-top:10px;"> {{error_message}}</p>
+                <h1 class=" text-2xl font-bold mb-4">Login</h1>
+                <p style="color: red; text-align:center;" class=" my-2"> {{error_message}}</p>
                 <form method="post">
                     <input type="hidden" name="next" value={{next}}>
                     {%csrf_token%}
 
-                    <input placeholder="Username" class="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150 w-full" type="text" name="username" id="id_username">
-                    <input placeholder="Password" class="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150 w-full" type="password" name="password" id="id_password">
+                    <input required placeholder="Username" class="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150 w-full" type="text" name="username" id="id_username">
+                    <input required placeholder="Password" class="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150 w-full" type="password" name="password" id="id_password">
                     <div class=" text-center"><a href="{%url 'password_reset'%}" class="forgot-pass hover:underline text-blue-400 py-4">Forgot password?</a></div>
-                    <button class="bg-[#212121] text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-blue-600 transition ease-in-out duration-150 w-full" type="submit">Login</button>
+                    <button class="bg-[#212121] text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-gray-700 w-full" type="submit">Login</button>
                     <div class=" text-center py-4">
                         <span>Don't have an account? <a href="{% url 'register'%}" class="link signup-link hover:underline text-blue-400">Signup</a></span>
                     </div>
