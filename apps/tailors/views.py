@@ -37,7 +37,7 @@ TailorFlow.'''
             return redirect('/')
         else:
             print(form.errors)
-    return render(request,'tailors/registration.html',context={'form':form})
+    return render(request,'tailors/registration.html',context={'form':form,'title':'Register'})
 
 
 def tailor_login(request):
@@ -58,7 +58,7 @@ def tailor_login(request):
         else:
             # Handle authentication failure (e.g., show an error message)
             return render(request, 'tailors/login.html', {'error_message': 'Invalid credentials','form':form})
-    return render(request,'tailors/login.html',{'form':form,'next':next_url})
+    return render(request,'tailors/login.html',{'form':form,'next':next_url,'title':'Login'})
 
 @login_required
 def profile(request):
