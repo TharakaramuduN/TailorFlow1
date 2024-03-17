@@ -1,5 +1,8 @@
 {%extends 'base.html'%}
 {%load static%}
+{%block title%}
+    {{title}}
+{%endblock title%}
 {%block content%}
     <form action="" method="POST">
         {%csrf_token%}
@@ -14,7 +17,6 @@
                         <option value="last_7_days">Last 7 days</option>
                         <option value="this_month">This Month</option>
                         <option value="this_year">This year</option>
-                        <option value="Yearly">Custom Range</option>
                     </select>
                 </div>
                 <div class="sales-dashboard grid gap-2 sm:gap-4 grid-cols-3">
@@ -44,7 +46,7 @@
                     </div>
                 </div>
             </div>
-            <div class="products-dashboard-container border w-full p-5 rounded-lg mb-3">
+            <div class="products-dashboard-container border w-full p-5 rounded-lg mb-14">
                 <div class="buttons-section mb-4 mt-2 flex flex-wrap justify-between gap-2 sm:gap-3">
                     <div class=" flex gap-2 sm:gap-3">
                         <button onclick="filterOrderItems('Not-Stitched')" id="Not-Stitched" class="border filter-btn px-2 text-sm sm:text-base bg-gray-800 text-white rounded-md selected-status" type="button">Not-Stitched (<span class="Not-Stitched-count pointer-events-none">{{order_items|length}}</span>)</button>

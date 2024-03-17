@@ -1,6 +1,10 @@
 {%extends 'base.html'%}
 {%load static%}
 
+{%block title%}
+    {{title}}
+{%endblock title%}
+
 {%block stylesheet%}
   <link rel="stylesheet" href="{%static 'css/products.css'%}">
 {%endblock stylesheet%}
