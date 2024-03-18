@@ -56,15 +56,41 @@ python manage.py runserver
 
 ## Screenshots
 
+- Home
+  
 ![Home](/media/default/app_screenshots/home.png)
-![Home](/media/default/app_screenshots/orders.png)
-![Home](/media/default/app_screenshots/order_details.png)
-![Home](/media/default/app_screenshots/customers.png)
-![Home](/media/default/app_screenshots/customer_details.png)
-![Home](/media/default/app_screenshots/transactions.png)
-![Home](/media/default/app_screenshots/products.png)
-![Home](/media/default/app_screenshots/dashboard.png)
-![Home](/media/default/app_screenshots/profile.png)
+
+- Orders
+  
+![Orders](/media/default/app_screenshots/orders.png)
+
+- Order Details
+  
+![Order Details](/media/default/app_screenshots/order_details.png)
+
+- Customers
+  
+![Customers](/media/default/app_screenshots/customers.png)
+
+- Customer Details
+
+![Customer Details](/media/default/app_screenshots/customer_details.png)
+
+- Transactions
+  
+![Transactions](/media/default/app_screenshots/transactions.png)
+
+- Products
+
+![Products](/media/default/app_screenshots/products.png)
+
+- Dashboard
+  
+![Dashboard](/media/default/app_screenshots/dashboard.png)
+
+- Profile
+  
+![Profile](/media/default/app_screenshots/profile.png)
 
 
 ## Contact
