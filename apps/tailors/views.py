@@ -24,14 +24,14 @@ def register(request):
             message = '''Thank you for registering with us!
 Warm Regards,
 TailorFlow.'''
-            send_mail(
-                subject,
-                message,
-                settings.EMAIL_HOST_USER,
-                [tailor.email],
-                fail_silently=False,
+            # send_mail(
+            #     subject,
+            #     message,
+            #     settings.EMAIL_HOST_USER,
+            #     [tailor.email],
+            #     fail_silently=False,
 
-            )
+            # )
             user = authenticate(request,username=username,password=password)
             login(request,user)
             return redirect('/')
