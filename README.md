@@ -8,7 +8,6 @@ TailorFlow is a web application designed for tailors to efficiently manage their
 ## Features
 
 - Authentication system.
-- Password reset functionality.
 - Create and edit orders, customer details, customer measurements etc..
 - Simple and clean Dashboard for tracking key metrics such as customer acquisition, sales, payment types, etc., with filtering options.
 - Search bar, filters and pagination on required pages for enhanced usability.
@@ -36,22 +35,14 @@ cd TailorFlow1
 ```bash
 pip install -r requirements.txt
 ```
-4.Create a .env file in the project root directory and add the following SMTP email configuration (replace 'user@gmail.com' and 'password' with your actual Gmail credentials):
 
-```bash
-EMAIL_HOST_USER='user@gmail.com'
-EMAIL_HOST_PASSWORD='password'
-```
-
-5.If your Gmail account does not meet SMTP requirements and raised an error, comment out the email-related code in settings.py and remove the send email functionality in the registration view.
-
-6.Start the development server:
+4.Start the development server:
 
 ```bash
 python manage.py runserver
 ```
 
-7.Access the application by navigating to http://localhost:8000 in your web browser. If you're a new user, sign up to create your credentials and access the full functionality of TailorFlow.
+5.Access the application by navigating to http://localhost:8000 in your web browser. If you're a new user, sign up to create your credentials and access the full functionality of TailorFlow.
 
 
 ## Screenshots
