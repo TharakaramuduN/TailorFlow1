@@ -103,10 +103,10 @@
                                 <span>{{transaction_form.amount}}</span> -->
                                 {%if amount_paid < form.instance.total_price%}
                                     <span>Add Amount</span>
-                                    <span><input type="number" min="1" max="{{max_input_value}}" name="amount" id="id_amount" value="0"></span>
+                                    <span><input required type="number" min="1" max="{{max_input_value}}" name="amount" id="id_amount" value="0"></span>
                                 {%endif%}
                             {%else%}
-                                <input type="hidden" min="1" max="{{max_input_value}}" name="amount" id="id_amount" value="0">
+                                <input  type="hidden" min="1" max="{{max_input_value}}" name="amount" id="id_amount" value="0">
                             {%endif%}
                         </div>
 
