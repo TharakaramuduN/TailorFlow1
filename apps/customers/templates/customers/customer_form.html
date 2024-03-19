@@ -24,8 +24,8 @@
 
 <div class="">
     <select name="gender" id="id_gender" class=" w-full bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150" id="gender">
-        <option value="M">Male</option>
-        <option value="F">Female</option>
+        <option {% if form.gender.value == 'M'%} selected {%endif%} value="M">Male</option>
+        <option {% if form.gender.value == 'F'%} selected {%endif%} value="F">Female</option>
     </select>
 </div>
 
