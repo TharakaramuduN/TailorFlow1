@@ -149,10 +149,8 @@ def filter_orders(request):
         )
     paginator = Paginator(orders,5)
     page_num = request.GET.get('page')
-    print(page_num)
     page_obj = paginator.get_page(page_num)
     orders_data = list(page_obj.object_list.values('id','total_price', 'items_count', 'customer__first_name'))
-    print(orders_data)
     page_data = {
         'number':page_obj.number,
         'num_pages':page_obj.paginator.num_pages,

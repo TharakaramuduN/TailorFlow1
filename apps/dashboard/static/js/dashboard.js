@@ -8,9 +8,9 @@ filterBtns.forEach(btn=>{
 async function filterOrderItems(filterBy){
     let url;
     if(filterBy==='urgent'){
-        url = `/filter-order-items/?urgent=true`
+        url = `/api/filter-order-items/?urgent=true`
     }else{
-        url = `/filter-order-items/?filter=${filterBy}`
+        url = `/api/filter-order-items/?filter=${filterBy}`
     }
     let response = await fetch(url)
     if(!response.ok){
@@ -78,7 +78,7 @@ async function filterOrderItems(filterBy){
 async function updateStatus(event){
     const selectedStatusBtn = document.querySelector('.selected-status')
     const itemId = event.target.id
-    const response = await fetch(`/update-status/${itemId}`)
+    const response = await fetch(`/api/update-status/${itemId}`)
     if(!response.ok){
         throw Error('Page Not found')
     }
@@ -108,7 +108,7 @@ selectElement.addEventListener('change',filterSalesDashboard)
 
 async function filterSalesDashboard(){
     filter_by_date = selectElement.value
-    url = `/filter-sales-dashboard/?filter_by_date=${filter_by_date}`
+    url = `/api/filter-sales-dashboard/?filter_by_date=${filter_by_date}`
     let response = await fetch(url)
     if(!response.ok){
         Error('not found')

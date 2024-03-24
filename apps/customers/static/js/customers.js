@@ -1,5 +1,5 @@
 async function filterCustomers(page_num){
-  let query = '/filter-customers/?'
+  let query = '/api/filter-customers/?'
   let searchQuery = document.querySelector('.search-input').value.trim()
   let gender = document.querySelector('#gender').value
   let sortby = document.querySelector('#sortby').value

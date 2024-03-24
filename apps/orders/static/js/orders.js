@@ -1,6 +1,6 @@
 async function filterOrders(page_num){
     const searchQuery = document.querySelector('.search-input').value
-    let response = await fetch(`/filter-orders/?search=${searchQuery}&page=${page_num ? page_num : 1}`)
+    let response = await fetch(`/api/filter-orders/?search=${searchQuery}&page=${page_num ? page_num : 1}`)
     if(!response.ok){
         throw Error('not found')
     }

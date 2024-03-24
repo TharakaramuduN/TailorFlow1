@@ -2,8 +2,7 @@ async function filterProducts(){
     const searchQuery = document.querySelector('.search-input').value
     const gender = document.getElementById('gender').value
     const category = document.getElementById('category').value
-    console.log(`/filter-products/?search=${searchQuery}&gender=${gender}&category=${category}`)
-    let response = await fetch(`/filter-products/?search=${searchQuery}&gender=${gender}&category=${category}`)
+    let response = await fetch(`/api/filter-products/?search=${searchQuery}&gender=${gender}&category=${category}`)
     if(!response.ok){
         throw Error('not found')
     }
